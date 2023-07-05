@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Naziv Tvoje Firme</title>
+  <link rel="stylesheet" type="text/css" href="pocetna.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Početna</a></li>
+        <li><a href="#">Usluge</a></li>
+        <li><a href="#">Proizvodi</a></li>
+        <li><a href="#">O nama</a></li>
+        <li><a href="#">Kontakt</a></li>
+      </ul>
+    </nav>
+    <div class="prijava">
+      <button onclick="prikaziModal()">Prijava</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>Dobrodošli u Tvoju Firmu</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dignissim ipsum id lacus iaculis congue. Vestibulum posuere nulla a lectus dignissim, sed congue eros aliquam.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Tvoja Firma. Sva prava zadržana.</p>
+  </footer>
+
+  <div id="modal">
+    <div class="modal-sadrzaj">
+      <span class="zatvori" onclick="zatvoriModal()">&times;</span>
+      <h2>Prijava</h2>
+      <form>
+        <label for="korisnickoIme">Korisničko ime:</label>
+        <input type="text" id="korisnickoIme" name="korisnickoIme" required>
+
+        <label for="lozinka">Lozinka:</label>
+        <input type="password" id="lozinka" name="lozinka" required>
+
+        <input type="submit" value="Prijavi se">
+      </form>
+    </div>
+  </div>
+
+  <script src="pocetna.js"></script>
+</body>
+</html>
