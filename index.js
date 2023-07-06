@@ -38,8 +38,8 @@ sequelize.sync().then(async () => {
     duzina = rezervacije.length;
     for(var i=0; i<duzina; i++){
         var zaposlenik = rezervacije[i].rezervacija.zaposlenik;
-        var pocetak = rezervacije[i].rezervacija.datum_pocetka_godisnjeg;
-        var kraj = rezervacije[i].rezervacija.datum_kraja_godisnjeg;
+        var pocetak = new Date(rezervacije[i].rezervacija.datum_pocetka_godisnjeg);
+        var kraj = new Date(rezervacije[i].rezervacija.datum_kraja_godisnjeg);
         var odobren = rezervacije[i].rezervacija.odobren;
         await Rezervacije.findOrCreate({
             where: {
@@ -106,11 +106,24 @@ app.get("/zaposlenik",  function(req,res){
 
 app.get("/rezervacije", async function(req,res){
     if(req.session.username!=undefined && req.session.sef){
-        console.log(await Rezervacije.findAll({ raw: true}));
         res.send({lista: await Rezervacije.findAll({ raw: true})});
     }
     else 
-        res.sedn({greska: "Niste prijavljeni na DigiPay"});
+        res.send({greska: "Niste prijavljeni na DigiPay"});
+});
+
+app.post("/rezervacija/zaposlenik/:username/datum/:pocetak/kraj", async function(req,res){
+    var parametri = req.url.split(":");
+    var zaposlenik = parametri[1].split("/")[0];
+    var pocetak = new Date(parametri[2].split("/")[0]);
+    var kraj = new Date(parametri[2].split("/")[1]);
+    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj},
+        raw: true
+    });
+    rezervacija[0].odobren = !rezervacija[0].odobren;
+    await rezervacija[0].save();
+    
+    res.send();
 });
 
 app.listen(8080);

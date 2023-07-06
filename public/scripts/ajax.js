@@ -18,7 +18,7 @@ const PoziviAjax = (()=>{
 
     function impl_postPrijava(username,password,fnCallback){
         var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function() {// Anonimna funkcija
+        ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){
         var jsonRez = JSON.parse(ajax.responseText);
         fnCallback(null,jsonRez.poruka, jsonRez.sef);
@@ -35,7 +35,7 @@ const PoziviAjax = (()=>{
     
     function impl_postOdjava(fnCallback){
         var ajax = new XMLHttpRequest();
-        ajax.onreadystatechange = function() {// Anonimna funkcija
+        ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){ 
             fnCallback(null, "Uspješna odjava");
         }
@@ -84,10 +84,26 @@ const PoziviAjax = (()=>{
         ajax.send();
     }
 
+    function impl_postRezervacija(username, pocetak, kraj, fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){ 
+            fnCallback(null, "Rezervacija spašena");
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST","http://localhost:8080/rezervacija/zaposlenik/:" + username + "/datum/:" + pocetak + "/" + kraj,true);
+        ajax.send();
+    }
+
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
     getRezervacije: impl_getRezervacije,
-    getZaposlenik: impl_getZaposlenik
+    getZaposlenik: impl_getZaposlenik,
+    postRezervacija: impl_postRezervacija
     };
     })();

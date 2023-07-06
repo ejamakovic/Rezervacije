@@ -20,9 +20,19 @@
         <button id="odjava" style="border-radius: 5px" >Odjava</button>
       </div>
     </header>
-    <main id="rezervacije">
-      <p id="ime"></p>
-    </main>
+    <br><br>
+    <div class="container">
+      <div class="custom-select">
+        <select id="filter">
+          <option value="sve">Svi godišnji odmori</option>
+          <option value="odobreni">Odobreni godišnji odmori</option>
+          <option value="neodobreni">Neodobreni godišnji odmori</option>
+        </select>
+      </div>
+      <div id="rezervacije">
+      </div>
+    </div>
+    
     <script src="scripts/rezervacije.js"></script>
     <script src="scripts/ajax.js"></script>
 </body>
