@@ -19,10 +19,9 @@ function unesi(error, data){
     }
 }
 
-function posalji(){
-    
+function rezervacije(){
+    window.location.href = "http://localhost:8080/rezervacije.html";
 }
-
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});

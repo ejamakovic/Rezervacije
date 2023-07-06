@@ -1,0 +1,35 @@
+<!DOCTYPE html >
+<html lang="bs">
+<head>
+    <title>Prijava</title>
+    <link rel="stylesheet" type="text/css" href="css/prijava.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>  
+<body>
+    <header>
+        <nav>
+        <ul>
+          <li><a href="#" >Početna</a></li>
+          <li><a href="#" >Usluge</a></li>
+          <li><a href="#" >O nama</a></li>
+          <li><a href="#" >Kontakt</a></li>
+        </ul>
+      </nav>
+    </header>
+    <h1>Prijava</h1>
+    <div class="form-container">
+        <form>
+            <label>Korisničko ime:</label>
+            <input id="username" type="text" class="animate-input">
+            <label>Lozinka:</label>
+            <input id="password" type="password" class="animate-input">
+            <div id="poruka"></div>
+            <input type="button" id="login-btn" value="Prijavi se" class="animate-button">
+          </form>
+    </div>
+    <script src="scripts/prijava.js"></script>
+    <script src="scripts/ajax.js"></script>
+</body>
+</html>
+

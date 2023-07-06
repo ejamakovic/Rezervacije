@@ -3,6 +3,8 @@ body {
     color: white;
     font-family: "Open Sans", sans-serif;
     text-align: center;
+    margin: 0;
+    padding: 0;
   }
 
 .animate-input {
@@ -25,12 +27,12 @@ body {
   box-shadow: 0 0 10px #719ECE;
 }
   h1 {
-    font-size: 3em;
+    font-size: 2em;
     color: #ffcc00;
     margin-top: 50px;
   }
   .form-container {
-    width: 80%;
+    width: 60%;
     background-color: #262626;
     text-align: left;
     margin: 0 auto;
@@ -41,7 +43,7 @@ body {
     margin-top: 20px;
   }
   label {
-    font-size: 1.5em;
+    font-size: 1em;
     margin-bottom: 5px;
     display: block;
   }
@@ -64,5 +66,31 @@ body {
     margin: 8px 0;
     border: none;
     cursor: pointer;
-    font-size: 1.5em;
+    font-size: 1em;
+    border-radius: 5px;
+  }
+
+  ul, li {
+    margin: 0;
+    padding: 0;
+    background-color:#ffcc00;
+  } 
+  header {
+    background-color:#ffcc00;
+    padding: 10px;
+    color: #ffcc00;
+  }
+  
+  nav ul {
+    list-style-type: none;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  nav ul li a {
+    text-decoration: none;
+    color: #1a1a1a;
   }

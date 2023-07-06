@@ -1,0 +1,102 @@
+
+  #rezervacije{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px );
+    column-gap: 10px;
+    row-gap: 10px;
+    margin-right: 0;
+  }
+  .zelena {
+    border: 2px solid black;
+    padding: 1%;
+    background-color: white;
+    text-align: center;
+    background-color: rgb(118, 235, 76);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .crvena {
+    border: 2px solid black;
+    padding: 1%;
+    background-color: white;
+    text-align: center;
+    background-color: rgb(241, 46, 46);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .button:hover {
+    background-color: #45a049;
+  }
+
+  
+body {
+  margin: 0;
+  padding: 0;
+  background-color:#1a1a1a;
+  color: white;
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+}
+ul, li {
+  margin: 0;
+  padding: 0;
+  background-color:#ffcc00;
+} 
+header {
+  background-color:#ffcc00;
+  padding: 10px;
+  color: #ffcc00;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #1a1a1a;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffcc00;
+}
+
+.prijava {
+  text-align: right;
+  padding: 10px;
+}
+
+.prijava button {
+  background-color: #1a1a1a;
+  color: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
