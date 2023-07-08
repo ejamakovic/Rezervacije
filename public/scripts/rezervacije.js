@@ -16,18 +16,19 @@ function postaviListener(){
             var zaposlenik = parametri[0];
             var pocetak = new Date(parametri[1]);
             var kraj = new Date(parametri[2]);
-            if(box.parentElement.className == "zelena" && box.textContent == "NE")
+            if(box.parentElement.className == "zelena" && box.textContent == "NE"){
                 box.parentElement.className = "crvena";
-            else if(box.parentElement.className == "crvena" && box.textContent == "DA")
+                PoziviAjax.postRezervacije(zaposlenik, pocetak, kraj, ispisi);
+            }
+            else if(box.parentElement.className == "crvena" && box.textContent == "DA"){
                 box.parentElement.className = "zelena";
-            PoziviAjax.postRezervacija(zaposlenik, pocetak, kraj, potvrda);
+                PoziviAjax.postRezervacije(zaposlenik, pocetak, kraj, ispisi);
+            }
+            
         });
     }
 }
 
-function potvrda(error, data){
-
-}
 
 function ispisi(error, data){
     if(!error){
@@ -37,15 +38,16 @@ function ispisi(error, data){
         }
         var vrati = "";    
         var duzina = data.length;
-        
         for(i=0 ; i<duzina; i++){
             var zaposlenik = data[i].zaposlenik;
             var pocetak = data[i].datum_pocetka_godisnjeg.split("T")[0];
             var kraj = data[i].datum_kraja_godisnjeg.split("T")[0];
             var odobren =  data[i].odobren;
-            var kartica = "crvena"
+            var kartica = "crvena";
             if(odobren)
-                kartica = "zelena"; 
+                kartica = "zelena";
+
+            if((opcija=="odobreni" && kartica == "zelena") || (opcija=="neodobreni" && kartica == "crvena") || opcija == "sve")
             vrati += "<div class='" + kartica + "'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>DA</button>" 
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>NE</button></div>";
@@ -60,6 +62,7 @@ window.onload = function(){
     var filter = document.getElementById("filter")
     filter.addEventListener("change", function(){
         opcija = filter.value;
+        PoziviAjax.getRezervacije(ispisi);
     });
     document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
     PoziviAjax.getRezervacije(ispisi);

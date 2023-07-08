@@ -90,14 +90,12 @@ app.post("/prijava", async function(req,res){
 });
 
 app.post("/odjava", function(req,res){
-    console.log("nesta");
     req.session.username = undefined;
     res.send();
 });
 
 
 app.get("/zaposlenik",  function(req,res){
-    console.log(req.session.username);
     if(req.session.username != undefined)
         res.send({username: req.session.username})
     else
@@ -105,25 +103,48 @@ app.get("/zaposlenik",  function(req,res){
 });
 
 app.get("/rezervacije", async function(req,res){
-    if(req.session.username!=undefined && req.session.sef){
-        res.send({lista: await Rezervacije.findAll({ raw: true})});
+    if(req.session.username!=undefined && req.session.sef!=undefined){
+        if(req.session.sef)
+            res.send({lista: await Rezervacije.findAll({ raw: true})});
+        else
+            res.send({greska: "Niste šef!"});
     }
     else 
         res.send({greska: "Niste prijavljeni na DigiPay"});
 });
 
-app.post("/rezervacija/zaposlenik/:username/datum/:pocetak/kraj", async function(req,res){
-    var parametri = req.url.split(":");
-    var zaposlenik = parametri[1].split("/")[0];
-    var pocetak = new Date(parametri[2].split("/")[0]);
-    var kraj = new Date(parametri[2].split("/")[1]);
-    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj},
-        raw: true
+
+
+
+
+app.post("/rezervacija/zaposlenik/:username", async function(req,res){
+    var url = decodeURI(req.url);
+    var parametri = url.split(":");
+    var zaposlenik = parametri[1];
+    var pocetak = req.body["pocetak"];
+    var kraj = req.body["kraj"];
+    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}
     });
-    rezervacija[0].odobren = !rezervacija[0].odobren;
-    await rezervacija[0].save();
+    if(rezervacija!=null){
+    rezervacija.odobren = !rezervacija.odobren;
+    await rezervacija.save();
+    }
     
-    res.send();
+    res.send({lista: await Rezervacije.findAll({raw: true})});
+});
+
+app.post("/rezervisi/zaposlenik/:username", async function(req,res){
+    var url = decodeURI(req.url);
+    var parametri = url.split(":");
+    var zaposlenik = parametri[1];
+    var pocetak = new Date(req.body["pocetak"]);
+    var kraj = new Date(req.body["kraj"]);
+    console.log(pocetak);
+    var rezervacija = await Rezervacije.findOrCreate({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj},
+        defaults: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, odobren: false}
+    });  
+    
+    res.send({poruka: "Rezervacija uspješno poslana!"});
 });
 
 app.listen(8080);

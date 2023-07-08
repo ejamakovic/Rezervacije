@@ -5,6 +5,10 @@
     <link rel="stylesheet" type="text/css" href="css/pocetna.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+    rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>  
 <body>
     <header>
@@ -22,9 +26,17 @@
     </header>
     <h1>Zaposlenik</h1>
     <h2 id="username"></h2>
-    <p onclick="forma()">Rezerviši godišnji odmor</p>
+    <div class="form-container">
+      <form>
+          <label>Početak godišnjeg odmora:</label>
+          <input type = "text" id = "datepickerP" class="animate-input">
+          <label>Kraj godišnjeg odmora:</label>
+          <input type = "text" id = "datepickerK" class="animate-input">
+          <input type="button" id="login-btn" value="Pošalji rezervaciju" class="animate-button">
+        </form>
+    </div>
     
-    <script src="scripts/zaposlenik.js"></script>
+    <script src="scripts/rezervisi.js"></script>
     <script src="scripts/ajax.js"></script>
 </body>
 </html>

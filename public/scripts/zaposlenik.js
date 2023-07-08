@@ -15,12 +15,12 @@ function unesi(error, data){
         document.body.innerHTML = data;
         return;
     }
-    document.getElementById("username").value = data;
+    document.getElementById("username").textContent = data;
     }
 }
 
-function posalji(){
-    
+function forma(){
+    window.location.href = "http://localhost:8080/rezervisi.html";
 }
 
 

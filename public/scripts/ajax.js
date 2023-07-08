@@ -84,26 +84,43 @@ const PoziviAjax = (()=>{
         ajax.send();
     }
 
-    function impl_postRezervacija(username, pocetak, kraj, fnCallback){
+    function impl_postRezervacije(username, pocetak, kraj, fnCallback){
         var ajax = new XMLHttpRequest();
         ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){ 
-            fnCallback(null, "Rezervacija spašena");
+            var jsonRez = JSON.parse(ajax.responseText);
+            fnCallback(null, jsonRez.lista);
         }
         else if (ajax.readyState == 4)
         fnCallback(ajax.statusText, null);
         }
         
-        ajax.open("POST","http://localhost:8080/rezervacija/zaposlenik/:" + username + "/datum/:" + pocetak + "/" + kraj,true);
-        ajax.send();
+        ajax.open("POST",encodeURI("http://localhost:8080/rezervacija/zaposlenik/:" + username ),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({pocetak: pocetak, kraj: kraj}));
     }
 
-
+    function impl_postRezervacija(username, pocetak, kraj, fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback(null, jsonRez.poruka);
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST",encodeURI("http://localhost:8080/rezervisi/zaposlenik/:" + username ),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({pocetak: pocetak, kraj: kraj}));
+    }
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
     getRezervacije: impl_getRezervacije,
     getZaposlenik: impl_getZaposlenik,
+    postRezervacije: impl_postRezervacije,
     postRezervacija: impl_postRezervacija
     };
     })();
