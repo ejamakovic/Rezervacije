@@ -91,6 +91,7 @@ app.post("/prijava", async function(req,res){
 
 app.post("/odjava", function(req,res){
     req.session.username = undefined;
+    req.session.sef = undefined;
     res.send();
 });
 

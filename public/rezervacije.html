@@ -1,10 +1,14 @@
 <!DOCTYPE html >
 <html lang="bs">
 <head>
-    <title>Prijava</title>
+    <title>Rezervacije</title>
     <link rel="stylesheet" type="text/css" href="css/rezervacije.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+    rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>  
 <body>
     <header>
@@ -27,16 +31,23 @@
     <button id="trazi" class="animate-button" onclick="traziZaposlenika()">Traži</button>
     <div class="custom-select">
         <select id="filter">
-          <option value="sve">Svi godišnji odmori</option>
-          <option value="odobreni">Odobreni godišnji odmori</option>
-          <option value="neodobreni">Neodobreni godišnji odmori</option>
+          <option value="sve">Svi godišnji</option>
+          <option value="odobreni">Odobreni godišnji</option>
+          <option value="neodobreni">Neodobreni godišnji</option>
         </select>
       </div>
+      <br>
+      <label>Početak godišnjeg odmora:</label>
+      <input type = "read-only" id = "datepickerP" class="animate-input">
+      <label>Kraj godišnjeg odmora:</label>
+      <input type = "read-only" id = "datepickerK" class="animate-input">
+      <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
     </div>
-    <div class="container">
+      
+    <div>
       <h3 style="color: white;">Rezervacije</h3>
       <div id="rezervacije">
-    </div>
+      </div>
     </div>
     
     <script src="scripts/rezervacije.js"></script>
