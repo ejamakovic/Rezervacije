@@ -59,7 +59,7 @@ body {
     color: #cccccc;
   }
   #login-btn {
-    width: 20%;
+    width: fit-content;
     background-color: #ffcc00;
     color: black;
     padding: 14px 20px;

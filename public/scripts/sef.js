@@ -15,7 +15,7 @@ function unesi(error, data){
         document.body.innerHTML = data;
         return;
     }
-    document.getElementById("username").value = data;
+    document.getElementById("username").textContent = data;
     }
 }
 

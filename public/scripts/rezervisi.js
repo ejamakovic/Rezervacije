@@ -42,7 +42,7 @@ window.onload = function(){
 $(document).ready(function() {
     // Inicijalizacija Datepickera
     $("#datepickerP").datepicker();
-  
+    
     // Čitanje odabranog datuma
     $("#datepickerP").on("change", function() {
       var selectedDate = $(this).datepicker("getDate");

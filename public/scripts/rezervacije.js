@@ -1,4 +1,5 @@
 let opcija = "sve";
+let trazi = "";
 
 function odjavi(error, data){
     if(!error){
@@ -29,6 +30,10 @@ function postaviListener(){
     }
 }
 
+function traziZaposlenika(){
+    trazi = document.getElementById("zaposlenik").value;
+    PoziviAjax.getRezervacije(ispisi);
+}
 
 function ispisi(error, data){
     if(!error){
@@ -47,17 +52,19 @@ function ispisi(error, data){
             if(odobren)
                 kartica = "zelena";
 
-            if((opcija=="odobreni" && kartica == "zelena") || (opcija=="neodobreni" && kartica == "crvena") || opcija == "sve")
+            if((opcija=="odobreni" && kartica == "zelena") || (opcija=="neodobreni" && kartica == "crvena") || opcija == "sve"){
+                var regex = new RegExp(trazi, "i");
+            if(regex.test(zaposlenik) || trazi == "")
             vrati += "<div class='" + kartica + "'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>DA</button>" 
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>NE</button></div>";
+                }
         }
         
         document.getElementById("rezervacije").innerHTML = vrati;
         postaviListener();
     }
 }
-
 window.onload = function(){
     var filter = document.getElementById("filter")
     filter.addEventListener("change", function(){

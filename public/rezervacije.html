@@ -22,15 +22,21 @@
     </header>
     <br><br>
     <div class="container">
-      <div class="custom-select">
+    <label>Traži zaposlenika: </label>
+    <input class="animate-input" type="text" id="zaposlenik">
+    <button id="trazi" class="animate-button" onclick="traziZaposlenika()">Traži</button>
+    <div class="custom-select">
         <select id="filter">
           <option value="sve">Svi godišnji odmori</option>
           <option value="odobreni">Odobreni godišnji odmori</option>
           <option value="neodobreni">Neodobreni godišnji odmori</option>
         </select>
       </div>
+    </div>
+    <div class="container">
+      <h3 style="color: white;">Rezervacije</h3>
       <div id="rezervacije">
-      </div>
+    </div>
     </div>
     
     <script src="scripts/rezervacije.js"></script>

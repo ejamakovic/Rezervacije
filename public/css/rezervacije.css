@@ -5,7 +5,7 @@
     column-gap: 10px;
     row-gap: 10px;
     margin-right: 0px;
-    max-width: 85%;
+    max-width: 100%;
   }
   .zelena {
     border: 2px solid black;
@@ -22,7 +22,7 @@
     padding: 1%;
     background-color: white;
     text-align: center;
-    background-color: rgb(255, 66, 66);
+    background-color: rgba(255, 41, 41, 0.762);
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
@@ -108,8 +108,9 @@ p {
 
 .custom-select {
   position: absolute;
+  width: fit-content;
   right: 0;
-  top: 0;
+  top: 8px;
   display: inline-block;
   border-radius: 4px;
   overflow: hidden;
@@ -133,7 +134,7 @@ p {
 
 .custom-select::after {
   content: "\f078";
-  font-family: "Font Awesome 5 Free";
+  font-family: "Open Sans", sans-serif;
   position: absolute;
   top: 0;
   right: 0;
@@ -159,5 +160,55 @@ p {
   position: relative;
   margin: 1%;
 }
+
+.animate-input {
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  transition: border 0.5s;
+}
+.animate-input:focus {
+  border: 4px solid #ccc;
+}
+
+.animate-button {
+  transition: all 0.2s;
+}
+
+.animate-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 10px #719ECE;
+}
+
+label {
+    font-size: 1em;
+    margin-right: 20px;
+    display: inline;
+    color:white;
+  }
+  input[type="text"], input[type="password"] {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0px;
+    margin-right: 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    background-color: #4d4d4d;
+    font-size: 1em;
+    color: #cccccc;
+  }
+  #trazi {
+    width: fit-content;
+    background-color: #ffcc00;
+    color: black;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+  }
 
 
