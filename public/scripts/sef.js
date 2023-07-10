@@ -20,12 +20,16 @@ function unesi(error, data){
 }
 
 function rezervacije(){
-    window.location.href = "http://localhost:8080/rezervacije.html";
+    window.location.href = "http://localhost:8080/sef/rezervacije";
+}
+
+function dodajZaposlenika(){
+    window.location.href = "http://localhost:8080/sef/noviZaposlenik";
 }
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
-        PoziviAjax.getZaposlenik(unesi);
+        PoziviAjax.postZaposlenik(unesi);
 }
 
 

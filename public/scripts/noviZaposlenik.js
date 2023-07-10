@@ -19,9 +19,22 @@ function unesi(error, data){
     }
 }
 
-function forma(){
-    window.location.href = "http://localhost:8080/zaposlenik/rezervacija";
+function posalji(){
+    var ime = document.getElementById("ime").value;
+    var prezime = document.getElementById("prezime").value;
+    var password = document.getElementById("password").value;
+    var pre = prezime.replace("č", "c");
+    pre = pre.replace("ć", "c");
+    pre = pre.replace("š", "s");
+    pre = pre.replace("ž", "z");
+    pre = pre.replace("đ", "d");
+    pre = pre.replace("dž", "dz");
+
+    var username = ime.substring(0,1).toLowerCase() + pre.toLowerCase();
+
+    PoziviAjax.postDodajZaposlenika(ime, prezime, username, password);
 }
+
 
 
 window.onload = function(){

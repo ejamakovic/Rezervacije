@@ -71,7 +71,24 @@ app.use(express.static(__dirname+"/public"));
 app.get("/", async function(req,res){
     res.sendFile(__dirname + "/public/pocetna.html");
 });
-
+app.get("/prijava", async function(req,res){
+    res.sendFile(__dirname +"/public/prijava.html");
+});
+app.get("/zaposlenik",  function(req,res){
+    res.sendFile(__dirname + "/public/zaposlenik.html");
+});
+app.get("/zaposlenik/rezervacija", function(req,res){
+    res.sendFile(__dirname + "/public/rezervisi.html");
+});
+app.get("/sef",  function(req,res){
+    res.sendFile(__dirname + "/public/sef.html");
+});
+app.get("/sef/rezervacije", function(req,res){
+    res.sendFile(__dirname + "/public/rezervacije.html");
+});
+app.get("/sef/noviZaposlenik", function(req,res){
+    res.sendFile(__dirname + "/public/noviZaposlenik.html");
+});
 
 app.post("/prijava", async function(req,res){
     var username = req.body["username"];
@@ -95,15 +112,14 @@ app.post("/odjava", function(req,res){
     res.send();
 });
 
-
-app.get("/zaposlenik",  function(req,res){
+app.post("/zaposlenik",  function(req,res){
     if(req.session.username != undefined)
         res.send({username: req.session.username})
     else
         res.send({greska: "Niste prijavljeni na DigiPay"});
 });
 
-app.get("/rezervacije", async function(req,res){
+app.post("/rezervacije", async function(req,res){
     if(req.session.username!=undefined && req.session.sef!=undefined){
         if(req.session.sef)
             res.send({lista: await Rezervacije.findAll({ raw: true})});
@@ -114,10 +130,6 @@ app.get("/rezervacije", async function(req,res){
         res.send({greska: "Niste prijavljeni na DigiPay"});
 });
 
-
-
-
-
 app.post("/rezervacija/zaposlenik/:username", async function(req,res){
     var url = decodeURI(req.url);
     var parametri = url.split(":");
@@ -126,10 +138,8 @@ app.post("/rezervacija/zaposlenik/:username", async function(req,res){
     var kraj = req.body["kraj"];
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}
     });
-    if(rezervacija!=null){
-    rezervacija.odobren = !rezervacija.odobren;
+    rezervacija.status = "prihvacen";
     await rezervacija.save();
-    }
     
     res.send({lista: await Rezervacije.findAll({raw: true})});
 });
@@ -140,12 +150,11 @@ app.post("/rezervisi/zaposlenik/:username", async function(req,res){
     var zaposlenik = parametri[1];
     var pocetak = new Date(req.body["pocetak"]);
     var kraj = new Date(req.body["kraj"]);
-    console.log(pocetak);
-    var rezervacija = await Rezervacije.findOrCreate({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj},
-        defaults: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, odobren: false}
-    });  
-    
-    res.send({poruka: "Rezervacija uspješno poslana!"});
+    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});  
+
+    if(rezervacija != null) res.send({greska: "Već ste poslali zahtjev za godišnji odmor!"});
+    await Rezervacije.create({zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, status: "neobraden"});  
+    res.send({poruka: "Rezervacija uspješno poslana"});
 });
 
 app.listen(8080);

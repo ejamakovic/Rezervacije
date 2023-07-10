@@ -1,14 +1,10 @@
 <!DOCTYPE html >
 <html lang="bs">
 <head>
-    <title>Rezervisi</title>
+    <title>Dodaj zaposlenika</title>
     <link rel="stylesheet" type="text/css" href="/css/pocetna.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
-    rel = "stylesheet">
-    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>  
 <body>
     <header>
@@ -24,20 +20,24 @@
         <button id="odjava" style="border-radius: 5px" ">Odjava</button>
       </div>
     </header>
-    <h1>Zaposlenik</h1>
+    <h1>Šef</h1>
     <h2 id="username"></h2>
+    
     <div class="form-container">
       <form>
-          <label>Početak godišnjeg odmora:</label>
-          <input type = "read-only" id = "datepickerP" class="animate-input">
-          <label>Kraj godišnjeg odmora:</label>
-          <input type = "read-only" id = "datepickerK" class="animate-input">
+          <h4>Novi zaposlenik</h4>
+          <label>Ime: </label>
+          <input type = "text" id="ime" class="animate-input">
+          <label>Prezime: </label>
+          <input type = "text" id="prezime" class="animate-input">
+          <label>Lozinka: </label>
+          <input type = "password" id = "password" class="animate-input">
           <div id="poruka"></div>
-          <input type="button" id="login-btn" value="Pošalji rezervaciju" class="animate-button">
+          <input type="button" id="login-btn" value="Kreiraj zaposlenika" class="animate-button">
         </form>
     </div>
     
-    <script src="/scripts/rezervisi.js"></script>
+    <script src="/scripts/noviZaposlenik.js"></script>
     <script src="/scripts/ajax.js"></script>
 </body>
 </html>

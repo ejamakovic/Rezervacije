@@ -8,9 +8,9 @@ function ispisi(error, data, sef){
         document.body.innerHTML = "<h1>" + data + "</h1>";
         setTimeout(function(){
             if(sef)
-                window.location.href = "http://localhost:8080/sef.html";
+                window.location.href = "http://localhost:8080/sef";
             else
-                window.location.href = "http://localhost:8080/zaposlenik.html";
+                window.location.href = "http://localhost:8080/zaposlenik";
         }, 2000);
     }
     }

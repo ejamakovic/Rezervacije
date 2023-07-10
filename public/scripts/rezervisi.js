@@ -23,14 +23,14 @@ function slanje(error, data){
     if(!error){
         document.body.innerHTML = "<h1>" + data + "</h1>";
         setTimeout(function(){
-            window.location.href = "http://localhost:8080/zaposlenik.html";
+            window.location.href = "http://localhost:8080/zaposlenik";
         }, 2000);
     }
 }
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
-        PoziviAjax.getZaposlenik(unesi);
+        PoziviAjax.postZaposlenik(unesi);
         
         document.getElementById("login-btn").addEventListener("click", function(){
             username = document.getElementById("username").textContent;
@@ -38,7 +38,7 @@ window.onload = function(){
                  document.getElementById("poruka").textContent = "Ne može datum kraja biti prije datuma početka";
                 
             else
-            PoziviAjax.postRezervacija(username, pocetak, kraj, slanje);
+            PoziviAjax.postDodajRezervaciju(username, pocetak, kraj, slanje);
         });
 }
 

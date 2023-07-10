@@ -20,11 +20,11 @@ function postaviListener(){
             var kraj = new Date(parametri[2]);
             if(box.parentElement.className == "zelena" && box.textContent == "NE"){
                 box.parentElement.className = "crvena";
-                PoziviAjax.postRezervacije(zaposlenik, pocetak, kraj, ispisi);
+                PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ispisi);
             }
             else if(box.parentElement.className == "crvena" && box.textContent == "DA"){
                 box.parentElement.className = "zelena";
-                PoziviAjax.postRezervacije(zaposlenik, pocetak, kraj, ispisi);
+                PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ispisi);
             }
             
         });
@@ -36,12 +36,12 @@ function reset(){
     krajD = "";
     document.getElementById("datepickerP").value = "";
     document.getElementById("datepickerK").value = "";
-    PoziviAjax.getRezervacije(ispisi);
+    PoziviAjax.postRezervacije(ispisi);
 }
 
 function traziZaposlenika(){
     trazi = document.getElementById("zaposlenik").value;
-    PoziviAjax.getRezervacije(ispisi);
+    PoziviAjax.postRezervacije(ispisi);
 }
 
 function ispisi(error, data){
@@ -80,10 +80,10 @@ window.onload = function(){
     var filter = document.getElementById("filter")
     filter.addEventListener("change", function(){
         opcija = filter.value;
-        PoziviAjax.getRezervacije(ispisi);
+        PoziviAjax.postRezervacije(ispisi);
     });
     document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
-    PoziviAjax.getRezervacije(ispisi);
+    PoziviAjax.postRezervacije(ispisi);
 }
 
 $(document).ready(function() {
@@ -94,7 +94,7 @@ $(document).ready(function() {
     $("#datepickerP").on("change", function() {
       var selectedDate = $(this).datepicker("getDate");
       pocetakD = $.datepicker.formatDate("yy-mm-dd", selectedDate);
-      PoziviAjax.getRezervacije(ispisi);
+      PoziviAjax.postRezervacije(ispisi);
     });
 
     // Inicijalizacija Datepickera
@@ -104,6 +104,6 @@ $(document).ready(function() {
     $("#datepickerK").on("change", function() {
       var selectedDate = $(this).datepicker("getDate");
       krajD = $.datepicker.formatDate("yy-mm-dd", selectedDate);
-      PoziviAjax.getRezervacije(ispisi);
+      PoziviAjax.postRezervacije(ispisi);
     });
 });
