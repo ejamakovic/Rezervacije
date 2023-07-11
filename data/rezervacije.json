@@ -1,10 +1,10 @@
 [
     {
     "rezervacija": {
-    "zaposlenik": "zaposlenik",
+    "zaposlenik": "ejamakovic",
     "datum_pocetka_godisnjeg" : "2023-07-21",
     "datum_kraja_godisnjeg" : "2023-07-25",
-    "odobren" : false
+    "odobren" : true
     }
     }
 ]

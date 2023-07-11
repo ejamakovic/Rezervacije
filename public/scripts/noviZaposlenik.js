@@ -1,4 +1,5 @@
 
+let ime, prezime, password;
 
 function odjavi(error, data){
     if(!error){
@@ -19,23 +20,36 @@ function unesi(error, data){
     }
 }
 
-function posalji(){
-    var ime = document.getElementById("ime").value;
-    var prezime = document.getElementById("prezime").value;
-    var password = document.getElementById("password").value;
-    var pre = prezime.replace("č", "c");
-    pre = pre.replace("ć", "c");
-    pre = pre.replace("š", "s");
-    pre = pre.replace("ž", "z");
-    pre = pre.replace("đ", "d");
-    pre = pre.replace("dž", "dz");
+function napravi(){
+    ime = document.getElementById("ime").value;
+    prezime = document.getElementById("prezime").value;
+    password = document.getElementById("password").value;
+    var pre = prezime.toLowerCase();
+    pre = pre.replaceAll("č", "c");
+    pre = pre.replaceAll("ć", "c");
+    pre = pre.replaceAll("š", "s");
+    pre = pre.replaceAll("ž", "z");
+    pre = pre.replaceAll("đ", "d");
+    pre = pre.replaceAll("dž", "dz");
 
     var username = ime.substring(0,1).toLowerCase() + pre.toLowerCase();
 
-    PoziviAjax.postDodajZaposlenika(ime, prezime, username, password);
+    PoziviAjax.postUsername(username, posalji);
+    
 }
 
+function posalji(error, username){
+    PoziviAjax.postDodajZaposlenika(ime, prezime, username, password, poruka);
+}
 
+function poruka(error, data){
+    if(!error){
+        document.body.innerHTML = "<h1>" + data + "</h1>";
+        setTimeout(function(){
+            window.location.href = "http://localhost:8080/sef";
+        }, 2000);
+    }
+}
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});

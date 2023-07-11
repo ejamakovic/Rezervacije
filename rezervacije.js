@@ -8,7 +8,7 @@ module.exports = function (sequelize, DataTypes){
         zaposlenik: Sequelize.STRING,
         datum_pocetka_godisnjeg: Sequelize.DATE,
         datum_kraja_godisnjeg: Sequelize.DATE,
-        status: Sequelize.STRING
+        odobren: Sequelize.BOOLEAN
     },
     {
         tableName: "Rezervacije"

@@ -5,6 +5,7 @@
     "prezime": "Jamaković",
     "username": "ejamakovic",
     "password_hash": "$2b$10$l5wInwIXoFDP5zBBpyEm5eiDgR.C5VVKV2uDZhy2Pynhddaj3vybm",
+    "status_godisnjeg": "odobren",
     "sef": false
     }
     },
@@ -14,6 +15,7 @@
         "prezime": "Hrnjić",
         "username": "thrnjic",
         "password_hash": "$2b$10$l5wInwIXoFDP5zBBpyEm5eiDgR.C5VVKV2uDZhy2Pynhddaj3vybm",
+        "status_godisnjeg": "Nije poslan",
         "sef": true
         }
     }

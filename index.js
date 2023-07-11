@@ -20,16 +20,22 @@ const Rezervacije = require("./rezervacije.js") (sequelize);
 sequelize.sync().then(async () => {
     var duzina = zaposlenici.length;
     for(var i=0; i<duzina; i++){
+        var ime = zaposlenici[i].zaposlenik.ime;
+        var prezime = zaposlenici[i].zaposlenik.prezime;
         var username = zaposlenici[i].zaposlenik.username;
         var password = zaposlenici[i].zaposlenik.password_hash;
+        var status_godisnjeg = zaposlenici[i].zaposlenik.status_godisnjeg;
         var sef = zaposlenici[i].zaposlenik.sef;
         await Zaposlenici.findOrCreate({
         where: {
             username: username,
         },
         defaults: {
+            ime: ime,
+            prezime: prezime,
             username: username,
             password_hash: password,
+            status_godisnjeg: status_godisnjeg,
             sef: sef
         }
         });
@@ -138,7 +144,7 @@ app.post("/rezervacija/zaposlenik/:username", async function(req,res){
     var kraj = req.body["kraj"];
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}
     });
-    rezervacija.status = "prihvacen";
+    rezervacija.odobren = "true";
     await rezervacija.save();
     
     res.send({lista: await Rezervacije.findAll({raw: true})});
@@ -150,11 +156,52 @@ app.post("/rezervisi/zaposlenik/:username", async function(req,res){
     var zaposlenik = parametri[1];
     var pocetak = new Date(req.body["pocetak"]);
     var kraj = new Date(req.body["kraj"]);
-    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});  
+    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik}});  
 
-    if(rezervacija != null) res.send({greska: "Već ste poslali zahtjev za godišnji odmor!"});
-    await Rezervacije.create({zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, status: "neobraden"});  
+    if(rezervacija != null) res.send({poruka: "Već ste poslali zahtjev za godišnji odmor!"});
+    else{
+    await Rezervacije.create({zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, odobren: false});
+    var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
+    zap.status_godisnjeg = "neobrađen";
+    await zap.save();
     res.send({poruka: "Rezervacija uspješno poslana"});
+    }
+});
+
+app.post("/username", async function(req,res){
+    var username = req.body["username"];
+    var zap = await Zaposlenici.findAll({raw:true});
+    var duzina = zap.length;
+    for(var i=0; i<duzina; i++){
+        var korisnik = zap[i].username;
+        if(korisnik.substring(0, username.length) === username){
+            korisnik = korisnik.substring(username.length, korisnik.length);
+            if(korisnik.length == 0){
+                var broj = 1;
+                while(1){
+                var user = await Zaposlenici.findOne({where: {username: username + broj}});
+                if(user == null)
+                    break;
+                broj += 1;
+                }
+                username = username + broj;
+                res.send({username: username});
+                break;
+            }
+        }
+    }
+    if(username == req.body["username"])
+        res.send({username: username});
+});
+
+app.post("/dodajZaposlenika", async function(req,res){
+    var ime = req.body["ime"];
+    var prezime = req.body["prezime"];
+    var username = req.body["username"];
+    var password = await bcrypt.hash(req.body["password"], 10);
+    await Zaposlenici.create({ime: ime, prezime: prezime, username: username, password_hash: password, status_godisnjeg: "Nije poslan", sef: false});
+
+    res.send({poruka: "Zaposlenik uspješno kreiran"});
 });
 
 app.listen(8080);
