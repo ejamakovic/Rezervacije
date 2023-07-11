@@ -72,7 +72,7 @@ app.use(session({
     }));
 
 
-app.use(express.static(__dirname+"/public"));
+app.use(express.static(__dirname+"/public/"));
 
 app.get("/", async function(req,res){
     res.sendFile(__dirname + "/public/pocetna.html");
@@ -100,7 +100,7 @@ app.post("/prijava", async function(req,res){
     var username = req.body["username"];
     var password = req.body["password"];
     var poruka = "Neuspješna prijava";
-    let user = await Zaposlenici.findOne({where: {username: username},});
+    let user = await Zaposlenici.findOne({where: {username: username}});
     if(user!=null){
         var hash = user.toJSON().password_hash;
         if(await bcrypt.compare(password,hash).then(res=> {return res})) {
@@ -130,7 +130,7 @@ app.post("/rezervacije", async function(req,res){
         if(req.session.sef)
             res.send({lista: await Rezervacije.findAll({ raw: true})});
         else
-            res.send({greska: "Niste šef!"});
+            res.send({greska: "Niste šef"});
     }
     else 
         res.send({greska: "Niste prijavljeni na DigiPay"});
@@ -164,7 +164,7 @@ app.post("/rezervisi/zaposlenik/:username", async function(req,res){
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
     zap.status_godisnjeg = "neobrađen";
     await zap.save();
-    res.send({poruka: "Rezervacija uspješno poslana"});
+    res.send({poruka: "Rezervacija godišnjeg uspješno poslana"});
     }
 });
 
@@ -202,6 +202,11 @@ app.post("/dodajZaposlenika", async function(req,res){
     await Zaposlenici.create({ime: ime, prezime: prezime, username: username, password_hash: password, status_godisnjeg: "Nije poslan", sef: false});
 
     res.send({poruka: "Zaposlenik uspješno kreiran"});
+});
+
+app.post("/neobradeni", async function(req,res){
+    var neobradeni = await Rezervacije.findAll({where: {odobren: false}, raw:true});
+    res.send({lista: neobradeni});
 });
 
 app.listen(8080);

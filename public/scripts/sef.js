@@ -30,6 +30,15 @@ function dodajZaposlenika(){
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
         PoziviAjax.postZaposlenik(unesi);
+        PoziviAjax.postNeobradeni(function(error, data){
+            if(!error){
+                var duzina = data.length;
+                if(duzina != 0)
+                {
+                    document.getElementById("obavijest").innerHTML = "<div class='obavijest'>Imate "+ duzina + " neobrađen zahtjev za godišnji odmor!</div>";
+                }
+            }
+        });
 }
 
 

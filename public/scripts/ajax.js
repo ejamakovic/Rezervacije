@@ -134,6 +134,21 @@ const PoziviAjax = (()=>{
         ajax.setRequestHeader("Content-Type", "application/json");
         ajax.send(JSON.stringify({ime: ime, prezime: prezime, username: username, password: password}));
     }
+
+    function impl_postNeobradeni(fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback(null, jsonRez.lista);
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST","http://localhost:8080/neobradeni",true);
+        ajax.send();
+    }
     
     return{
     postOdjava: impl_postOdjava,
@@ -143,6 +158,7 @@ const PoziviAjax = (()=>{
     postPromjeniRezervaciju: impl_postPromjeniRezervaciju,
     postDodajRezervaciju: impl_postDodajRezervaciju,
     postUsername: impl_postUsername,
-    postDodajZaposlenika: impl_postDodajZaposlenika
+    postDodajZaposlenika: impl_postDodajZaposlenika,
+    postNeobradeni: impl_postNeobradeni
     };
     })();
