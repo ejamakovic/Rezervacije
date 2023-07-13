@@ -27,6 +27,10 @@ function dodajZaposlenika(){
     window.location.href = "http://localhost:8080/sef/noviZaposlenik";
 }
 
+function zahtjevi(){
+    window.location.href = "http://localhost:8080/sef/neobradeniZahtjevi";
+}
+
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
         PoziviAjax.postZaposlenik(unesi);
@@ -35,7 +39,7 @@ window.onload = function(){
                 var duzina = data.length;
                 if(duzina != 0)
                 {
-                    document.getElementById("obavijest").innerHTML = "<div class='obavijest'>Imate "+ duzina + " neobrađen zahtjev za godišnji odmor!</div>";
+                    document.getElementById("obavijest").innerHTML = "<div class='obavijest' onclick='zahtjevi()'>Imate "+ duzina + " neobrađen zahtjev za godišnji odmor!</div>";
                 }
             }
         });

@@ -96,6 +96,11 @@ app.get("/sef/noviZaposlenik", function(req,res){
     res.sendFile(__dirname + "/public/noviZaposlenik.html");
 });
 
+app.get("/sef/neobradeniZahtjevi", function(req,res){
+    res.sendFile(__dirname + "/public/neobradeniZahtjevi.html");
+});
+
+
 app.post("/prijava", async function(req,res){
     var username = req.body["username"];
     var password = req.body["password"];
@@ -136,17 +141,25 @@ app.post("/rezervacije", async function(req,res){
         res.send({greska: "Niste prijavljeni na DigiPay"});
 });
 
-app.post("/rezervacija/zaposlenik/:username", async function(req,res){
-    var url = decodeURI(req.url);
-    var parametri = url.split(":");
-    var zaposlenik = parametri[1];
+app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
+    var zaposlenik = req.body["zaposlenik"];
     var pocetak = req.body["pocetak"];
     var kraj = req.body["kraj"];
-    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}
-    });
+    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     rezervacija.odobren = "true";
     await rezervacija.save();
     
+    res.send({lista: await Rezervacije.findAll({raw: true})});
+});
+
+app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
+    var zaposlenik = req.body["zaposlenik"];
+    var pocetak = req.body["pocetak"];
+    var kraj = req.body["kraj"];
+    await Rezervacije.destroy({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
+    var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
+    zap.status_godisnjeg = "odbijen";
+    await zap.save();
     res.send({lista: await Rezervacije.findAll({raw: true})});
 });
 
