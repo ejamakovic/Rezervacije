@@ -4,12 +4,14 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const zaposlenici = require("./data/zaposlenici.json");
 const rezervacije = require("./data/rezervacije.json");
-var fs = require('fs');
+var fs = require('fs')
+;
 const app = express();
 const path = require('path');
 
 const Sequelize = require('sequelize');
 const sequelize = require("./baza.js");
+const { use } = require('bcrypt/promises');
 
 // Kreiranje tabela u sequelize modulu
 const Zaposlenici = require("./zaposlenici.js") (sequelize);
@@ -26,6 +28,7 @@ sequelize.sync().then(async () => {
         var password = zaposlenici[i].zaposlenik.password_hash;
         var status_godisnjeg = zaposlenici[i].zaposlenik.status_godisnjeg;
         var sef = zaposlenici[i].zaposlenik.sef;
+        var prijava_prvi_put = zaposlenici[i].zaposlenik.prijava_prvi_put
         await Zaposlenici.findOrCreate({
         where: {
             username: username,
@@ -36,7 +39,8 @@ sequelize.sync().then(async () => {
             username: username,
             password_hash: password,
             status_godisnjeg: status_godisnjeg,
-            sef: sef
+            sef: sef,
+            prijava_prvi_put: prijava_prvi_put
         }
         });
     }
@@ -80,6 +84,9 @@ app.get("/", async function(req,res){
 app.get("/prijava", async function(req,res){
     res.sendFile(__dirname +"/public/prijava.html");
 });
+app.get("/promjenaLozinke", async function(req,res){
+    res.sendFile(__dirname +"/public/promjenaLozinke.html");
+});
 app.get("/zaposlenik",  function(req,res){
     res.sendFile(__dirname + "/public/zaposlenik.html");
 });
@@ -114,7 +121,7 @@ app.post("/prijava", async function(req,res){
             poruka = "Uspješna prijava na DigiPay";
         }
     }
-    res.send({poruka: poruka, sef: req.session.sef});
+    res.send({poruka: poruka, sef: req.session.sef, prijavaPrviPut: user.toJSON().prijava_prvi_put});
 });
 
 app.post("/odjava", function(req,res){
@@ -222,6 +229,16 @@ app.post("/neobradeni", async function(req,res){
     res.send({lista: neobradeni});
 });
 
+
+app.post("/promjenaLozinke" , async function(req,res){
+    var password = await bcrypt.hash(req.body["password"], 10);
+    var user = await Zaposlenici.findOne({where: {username: req.session.username}});
+    user.password_hash = password;
+    user.prijava_prvi_put = true;
+    await user.save();
+
+    res.send({poruka: "Uspješna promjena lozinke"});
+});
 app.listen(8080);
 
 module.exports = app;

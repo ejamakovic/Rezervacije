@@ -6,7 +6,7 @@ const PoziviAjax = (()=>{
         ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){
         var jsonRez = JSON.parse(ajax.responseText);
-        fnCallback(null,jsonRez.poruka, jsonRez.sef);
+        fnCallback(null,jsonRez.poruka, jsonRez.sef, jsonRez.prijavaPrviPut);
         }
         else if (ajax.readyState == 4)
         fnCallback(ajax.statusText, null);
@@ -165,7 +165,23 @@ const PoziviAjax = (()=>{
         ajax.setRequestHeader("Content-Type", "application/json");
         ajax.send(JSON.stringify({zaposlenik: username, pocetak: pocetak, kraj: kraj}));
     }
-    
+
+    function impl_postPromjenaLozinke(password, fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback(null, jsonRez.poruka);
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST","http://localhost:8080/promjenaLozinke",true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({password: password}));
+    }
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
@@ -176,6 +192,7 @@ const PoziviAjax = (()=>{
     postUsername: impl_postUsername,
     postDodajZaposlenika: impl_postDodajZaposlenika,
     postNeobradeni: impl_postNeobradeni,
-    postIzbrisiRezervaciju: impl_postIzbrisiRezervaciju
+    postIzbrisiRezervaciju: impl_postIzbrisiRezervaciju,
+    postPromjenaLozinke: impl_postPromjenaLozinke
     };
     })();

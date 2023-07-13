@@ -18,15 +18,8 @@ function postaviListener(){
             var zaposlenik = parametri[0];
             var pocetak = new Date(parametri[1]);
             var kraj = new Date(parametri[2]);
-            if(box.parentElement.className == "zelena" && box.textContent == "NE"){
-                box.parentElement.className = "crvena";
-                PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ispisi);
-            }
-            else if(box.parentElement.className == "crvena" && box.textContent == "DA"){
-                box.parentElement.className = "zelena";
-                PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ispisi);
-            }
-            
+            if(box.textContent == "Otkaži")
+                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, pocetak, kraj, ispisi);
         });
     }
 }
@@ -56,22 +49,14 @@ function ispisi(error, data){
             var zaposlenik = data[i].zaposlenik;
             var pocetak = data[i].datum_pocetka_godisnjeg.split("T")[0];
             var kraj = data[i].datum_kraja_godisnjeg.split("T")[0];
-            var odobren =  data[i].odobren;
-            var kartica = "crvena";
-            if(odobren)
-                kartica = "zelena";
 
-            if((opcija=="odobreni" && kartica == "zelena") || (opcija=="neodobreni" && kartica == "crvena") || opcija == "sve"){
             var regex = new RegExp(trazi, "i");
             if(regex.test(zaposlenik) || trazi == ""){
                 if((new Date(pocetakD) <= new Date(pocetak) || pocetakD == "") && (new Date(krajD) >= new Date(kraj) || krajD == ""))
-            vrati += "<div class='" + kartica + "'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
-            + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>DA</button>" 
-            + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>NE</button></div>";
+            vrati += "<div class='zelena'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
+            + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>Otkaži</button></div>";
                 }
             }
-        }
-        
         document.getElementById("rezervacije").innerHTML = vrati;
         postaviListener();
     }

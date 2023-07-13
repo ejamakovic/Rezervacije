@@ -10,7 +10,8 @@ module.exports = function (sequelize, DataTypes){
         username: Sequelize.STRING,
         password_hash: Sequelize.STRING,
         status_godisnjeg: Sequelize.STRING,
-        sef: Sequelize.BOOLEAN
+        sef: Sequelize.BOOLEAN,
+        prijava_prvi_put: Sequelize.BOOLEAN
     },
     {
         tableName: "Zaposlenici"

@@ -1,10 +1,11 @@
 var username, password;
 
-function ispisi(error, data, sef){
+function ispisi(error, data, sef, prijavaPrviPut){
     if(!error){
     if(data == "Neuspješna prijava")
         document.getElementById("poruka").textContent = "Krivo korisničko ime ili lozinka!";
     else{
+        if(prijavaPrviPut){
         document.body.innerHTML = "<h1>" + data + "</h1>";
         setTimeout(function(){
             if(sef)
@@ -12,6 +13,9 @@ function ispisi(error, data, sef){
             else
                 window.location.href = "http://localhost:8080/zaposlenik";
         }, 2000);
+        }
+        else
+            window.location.href = "http://localhost:8080/promjenaLozinke";
     }
     }
 }
