@@ -1,16 +1,45 @@
 
+  #upozorenje{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    position: fixed;
+    box-sizing: border-box;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgb(0 0 0 / 20%);
+    z-index: 999;
+    opacity: 1;
+  }
+
+  #dijalog{
+    border-radius: 4px;
+    padding: 0;
+    position: static;
+    height: fit-content;
+    width: 600px;
+    background: #fff;
+    padding: 1%;
+  }
+
+  #dijalog img{
+    width: 200px;
+  }
+
   #rezervacije{
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px );
     column-gap: 10px;
     row-gap: 10px;
-    margin-right: 0px;
+    margin: 1%;
     max-width: 100%;
   }
   .zelena {
     border: 2px solid black;
     padding: 1%;
-    background-color: white;
     text-align: center;
     background-color: rgb(122, 214, 89);
     border-radius: 5px;
@@ -20,7 +49,6 @@
   .crvena {
     border: 2px solid black;
     padding: 1%;
-    background-color: white;
     text-align: center;
     background-color: rgba(255, 41, 41, 0.762);
     border-radius: 5px;
@@ -122,7 +150,7 @@ p {
   padding: 10px;
   font-size: 16px;
   border: none;
-  background-color: #f1f1f1;
+  background-color: #fff;
   color: #1a1a1a;
   appearance: none;
   top: 0;
@@ -145,7 +173,7 @@ p {
 }
 
 .custom-select select[disabled] {
-  background-color: #e6e6e6;
+  background-color: #fff;
   color: #999;
   cursor: not-allowed;
 }
@@ -164,7 +192,7 @@ p {
 
 .animate-input {
   padding: 12px 20px;
-  margin: 8px 0;
+  margin: 1%;
   box-sizing: border-box;
   border: 2px solid #ccc;
   transition: border 0.5s;
@@ -185,14 +213,14 @@ p {
 
 label {
     font-size: 1em;
-    margin-right: 20px;
+    margin: 1%;
     display: inline;
-    color:white;
+    color:#fff;
   }
   input[type="text"], input[type="password"]{
     width: 40%;
     padding: 12px 20px;
-    margin: 8px 0px;
+    margin: 0;
     margin-right: 20px;
     box-sizing: border-box;
     border: none;
@@ -205,7 +233,7 @@ label {
   input[type="read-only"] {
     width: 20%;
     padding: 12px 20px;
-    margin: 8px 0px;
+    margin: 0;
     margin-right: 20px;
     box-sizing: border-box;
     border: none;

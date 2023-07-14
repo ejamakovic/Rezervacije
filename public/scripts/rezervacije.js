@@ -18,8 +18,20 @@ function postaviListener(){
             var zaposlenik = parametri[0];
             var pocetak = new Date(parametri[1]);
             var kraj = new Date(parametri[2]);
-            if(box.textContent == "Otkaži")
-                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, pocetak, kraj, ispisi);
+            if(box.textContent == "Otkaži"){
+                var upozorenje = document.getElementById("upozorenje");
+                upozorenje.style.display = "flex";
+                document.getElementById("da").addEventListener("click", function(){
+                    PoziviAjax.postIzbrisiRezervaciju(zaposlenik, pocetak, kraj, ispisi);
+                    upozorenje.style.display = "none";
+                });
+                document.getElementById("ne").addEventListener("click", function(){
+                    upozorenje.style.display = "none";
+                });
+                
+                
+            }
+
         });
     }
 }
@@ -61,6 +73,7 @@ function ispisi(error, data){
         postaviListener();
     }
 }
+
 window.onload = function(){
     var filter = document.getElementById("filter")
     filter.addEventListener("change", function(){
