@@ -45,6 +45,14 @@
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   }
+  .zuta {
+    border: 2px solid black;
+    padding: 1%;
+    text-align: center;
+    background-color: #ffcc00;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
 
   .crvena {
     border: 2px solid black;
@@ -80,6 +88,9 @@ body {
   color: #1a1a1a;
   font-family: "Open Sans", sans-serif;
   text-align: center;
+}
+h2{
+  color: #fff;
 }
 ul, li {
   margin: 0;

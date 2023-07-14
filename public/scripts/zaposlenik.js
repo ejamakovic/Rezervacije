@@ -23,6 +23,9 @@ function forma(){
     window.location.href = "http://localhost:8080/zaposlenik/rezervacija";
 }
 
+function historija(){
+    window.location.href = "http://localhost:8080/zaposlenik/historija";
+}
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});

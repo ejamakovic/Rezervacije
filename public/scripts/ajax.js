@@ -182,6 +182,25 @@ const PoziviAjax = (()=>{
         ajax.send(JSON.stringify({password: password}));
     }
 
+    function impl_postSviGodisnji(fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function(){
+        if (ajax.readyState == 4 && ajax.status == 200){
+            var jsonRez = JSON.parse(ajax.responseText);
+            if(jsonRez.lista != undefined)
+                fnCallback(null, jsonRez.lista);
+            else
+                fnCallback(null, jsonRez.greska);
+        }
+        else if(ajax.readyState == 4)
+            fnCallback(ajax.statusText, null);
+        }
+
+        ajax.open("POST",encodeURI("http://localhost:8080/historija"),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send();
+    }
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
@@ -193,6 +212,7 @@ const PoziviAjax = (()=>{
     postDodajZaposlenika: impl_postDodajZaposlenika,
     postNeobradeni: impl_postNeobradeni,
     postIzbrisiRezervaciju: impl_postIzbrisiRezervaciju,
-    postPromjenaLozinke: impl_postPromjenaLozinke
+    postPromjenaLozinke: impl_postPromjenaLozinke,
+    postSviGodisnji: impl_postSviGodisnji
     };
     })();

@@ -12,7 +12,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const sequelize = require("./baza.js");
 const { use } = require('bcrypt/promises');
-
+const { Op } = require("sequelize");
 // Kreiranje tabela u sequelize modulu
 const Zaposlenici = require("./zaposlenici.js") (sequelize);
 const Rezervacije = require("./rezervacije.js") (sequelize);
@@ -92,6 +92,9 @@ app.get("/zaposlenik",  function(req,res){
 });
 app.get("/zaposlenik/rezervacija", function(req,res){
     res.sendFile(__dirname + "/public/rezervisi.html");
+});
+app.get("/zaposlenik/historija", function(req,res){
+    res.sendFile(__dirname + "/public/historija.html");
 });
 app.get("/sef",  function(req,res){
     res.sendFile(__dirname + "/public/sef.html");
@@ -239,6 +242,17 @@ app.post("/promjenaLozinke" , async function(req,res){
 
     res.send({poruka: "Uspješna promjena lozinke"});
 });
+
+app.post("/historija", async function(req,res){
+    if(req.session.username!=undefined){
+        res.send({lista: await Rezervacije.findAll({where: {datum_kraja_godisnjeg: {[Op.lt]: new Date(Date.now())},
+            zaposlenik : req.session.username
+        },raw: true})});
+    }
+    else 
+        res.send({greska: "Niste prijavljeni na DigiPay"});
+});
+
 app.listen(8080);
 
 module.exports = app;
