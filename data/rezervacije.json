@@ -1,13 +1,5 @@
 [
     {
-    "rezervacija": {
-    "zaposlenik": "ejamakovic",
-    "datum_pocetka_godisnjeg" : "2023-07-21",
-    "datum_kraja_godisnjeg" : "2023-07-25",
-    "odobren" : true
-    }
-    },
-    {
         "rezervacija": {
         "zaposlenik": "ejamakovic",
         "datum_pocetka_godisnjeg" : "2022-07-21",

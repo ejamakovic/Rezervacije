@@ -38,17 +38,16 @@
       </div>
       <br>
       <label>Početak godišnjeg odmora:</label>
-      <input type = "read-only" id = "datepickerP" class="animate-input">
+      <input readonly type = "text" id = "datepickerP" class="animate-input">
       <label>Kraj godišnjeg odmora:</label>
-      <input type = "read-only" id = "datepickerK" class="animate-input">
+      <input readonly type = "text" id = "datepickerK" class="animate-input">
       <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
     </div>
       
     <div>
       <br>
       <h3 style="color: white;">Rezervacije</h3>
-      <div id="rezervacije">
-      </div>
+      <div id="rezervacije" class="rezervacije"></div>
     </div>
     <div id="upozorenje">
     <div id="dijalog">

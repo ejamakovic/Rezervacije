@@ -1,5 +1,5 @@
 
-let ime, prezime, password;
+let ime, prezime, password, username;
 
 function odjavi(error, data){
     if(!error){
@@ -32,10 +32,15 @@ function napravi(){
     pre = pre.replaceAll("đ", "d");
     pre = pre.replaceAll("dž", "dz");
 
-    var username = ime.substring(0,1).toLowerCase() + pre.toLowerCase();
+    username = ime.substring(0,1).toLowerCase() + pre.toLowerCase();
 
-    PoziviAjax.postUsername(username, posalji);
+    PoziviAjax.postUsername(username, popuni);
     
+}
+
+function popuni(error, user){
+    username = user;
+    document.getElementById("korisnik").value = username;
 }
 
 function posalji(error, username){
@@ -53,6 +58,12 @@ function poruka(error, data){
 
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
+        var i = document.getElementById("ime");
+        var p = document.getElementById("prezime");
+        i.addEventListener('input', napravi);
+        i.addEventListener('propertychange', napravi); 
+        p.addEventListener('input', napravi);
+        p.addEventListener('propertychange', napravi);
         PoziviAjax.postZaposlenik(unesi);
 }
 

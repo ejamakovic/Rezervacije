@@ -143,7 +143,7 @@ app.post("/zaposlenik",  function(req,res){
 app.post("/rezervacije", async function(req,res){
     if(req.session.username!=undefined && req.session.sef!=undefined){
         if(req.session.sef)
-            res.send({lista: await Rezervacije.findAll({ raw: true})});
+            res.send({lista: await Rezervacije.findAll({where: {datum_pocetka_godisnjeg: {[Op.gt]: new Date(Date.now())}, odobren: true}, raw: true})});
         else
             res.send({greska: "Niste šef"});
     }
@@ -151,15 +151,44 @@ app.post("/rezervacije", async function(req,res){
         res.send({greska: "Niste prijavljeni na DigiPay"});
 });
 
-app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
+app.post("/zaposlenik/rezervacija", async function(req,res){
+    res.send({lista: await Rezervacije.findOne({where: {datum_kraja_godisnjeg: {[Op.gte]: new Date(Date.now())},
+        zaposlenik : req.session.username},raw: true})});
+});
+
+app.post("/rezervacija/test", async function(req,res){
     var zaposlenik = req.body["zaposlenik"];
     var pocetak = req.body["pocetak"];
-    var kraj = req.body["kraj"];
+    var kraj = new Date(req.body["kraj"]);
+    var rezervacije = await Rezervacije.findAll({where: {odobren: true},raw: true});
+    var duzina = rezervacije.length;
+    var dan_brojZaposlenika = new Map();
+    var pomocna = new Date(pocetak);
+    while(pomocna <= kraj){
+    var broj = 0;
+    for(var i = 0; i < duzina; i++){
+        var p = rezervacije[i].datum_pocetka_godisnjeg;
+        var k = rezervacije[i].datum_kraja_godisnjeg;
+        if(pomocna >= p && pomocna <= k)
+            broj += 1;
+    }
+    dan_brojZaposlenika.set(new Date(pomocna), broj);
+    pomocna.setDate(pomocna.getDate()+1);
+    }
+    
+    var b = await Zaposlenici.count({where: {sef: false}}) - Math.max(...dan_brojZaposlenika.values());
+    res.send({ broj: b, zaposlenik: zaposlenik});
+});
+
+app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
+    var zaposlenik = req.body["zaposlenik"];
+    var pocetak = new Date(req.body["pocetak"]);
+    var kraj = new Date(req.body["kraj"]);
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     rezervacija.odobren = "true";
     await rezervacija.save();
     
-    res.send({lista: await Rezervacije.findAll({raw: true})});
+    res.send({lista: await Rezervacije.findAll({where: {odobren: false}, raw: true})});
 });
 
 app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
@@ -170,7 +199,7 @@ app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
     zap.status_godisnjeg = "odbijen";
     await zap.save();
-    res.send({lista: await Rezervacije.findAll({raw: true})});
+    res.send({lista: await Rezervacije.findAll({where: {datum_pocetka_godisnjeg: {[Op.gt]: new Date(Date.now())}, odobren: true}, raw: true})});
 });
 
 app.post("/rezervisi/zaposlenik/:username", async function(req,res){
@@ -179,7 +208,8 @@ app.post("/rezervisi/zaposlenik/:username", async function(req,res){
     var zaposlenik = parametri[1];
     var pocetak = new Date(req.body["pocetak"]);
     var kraj = new Date(req.body["kraj"]);
-    var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik}});  
+    var rezervacija = await Rezervacije.findOne({where: {datum_kraja_godisnjeg: {[Op.gte]: new Date(Date.now())},
+    zaposlenik : zaposlenik }});
 
     if(rezervacija != null) res.send({poruka: "Već ste poslali zahtjev za godišnji odmor!"});
     else{

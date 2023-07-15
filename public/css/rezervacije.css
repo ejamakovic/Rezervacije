@@ -29,7 +29,7 @@
     width: 200px;
   }
 
-  #rezervacije{
+  .rezervacije{
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px );
     column-gap: 10px;
@@ -89,7 +89,7 @@ body {
   font-family: "Open Sans", sans-serif;
   text-align: center;
 }
-h2{
+h2, h4{
   color: #fff;
 }
 ul, li {
@@ -241,7 +241,7 @@ label {
     color: #cccccc;
   }
 
-  input[type="read-only"] {
+  #datepickerP, #datepickerK {
     width: 20%;
     padding: 12px 20px;
     margin: 0;

@@ -1,6 +1,6 @@
-let opcija = "sve";
 let trazi = "";
 let pocetakD = "", krajD = "";
+let pocetak, kraj;
 
 function odjavi(error, data){
     if(!error){
@@ -16,18 +16,34 @@ function postaviListener(){
         box.addEventListener("click", function handleClick(event){
             var parametri = box.parentElement.id.split(":");
             var zaposlenik = parametri[0];
-            var pocetak = new Date(parametri[1]);
-            var kraj = new Date(parametri[2]);
+            var p = new Date(parametri[1]);
+            var k= new Date(parametri[2]);
             if(box.textContent == "Odbiji"){
-                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, pocetak, kraj, ucitaj);
+                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, p, k, ucitaj);
             }
             else if(box.textContent == "Prihvati"){
-                PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ucitaj);
+                var upozorenje = document.getElementById("upozorenje");
+                upozorenje.style.display = "flex";
+                pocetak = parametri[1];
+                kraj = parametri[2];
+                PoziviAjax.postRezervacijaTest(zaposlenik, pocetak, kraj, provjeriRezervacije);
             }
-            
         });
     }
 }
+
+function provjeriRezervacije(error, broj, zaposlenik){
+    if(!error){
+        document.getElementById("brojZaposlenika").textContent = "Imat će te samo " + broj + " zaposlenika dostupnih u firmi na neke dane u razdoblju od " + pocetak + " do " + kraj + ".";
+        document.getElementById("da").addEventListener("click", function(){
+                    upozorenje.style.display = "none";
+                    PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ucitaj)});
+        }
+        document.getElementById("ne").addEventListener("click", function(){
+            upozorenje.style.display = "none";
+        });
+}
+
 function ucitaj(error, data){
     if(!error)
         PoziviAjax.postNeobradeni(ispisi);

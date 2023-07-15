@@ -201,6 +201,42 @@ const PoziviAjax = (()=>{
         ajax.send();
     }
 
+    function impl_postTrenutniGodisnji(fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function(){
+        if (ajax.readyState == 4 && ajax.status == 200){
+            var jsonRez = JSON.parse(ajax.responseText);
+            if(jsonRez.lista != undefined)
+                fnCallback(null, jsonRez.lista);
+            else
+                fnCallback(null, jsonRez.greska);
+        }
+        else if(ajax.readyState == 4)
+            fnCallback(ajax.statusText, null);
+        }
+
+        ajax.open("POST",encodeURI("http://localhost:8080/zaposlenik/rezervacija"),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send();
+    }
+
+    
+    function impl_postRezervacijaTest(zaposlenik, pocetak, kraj, fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback(null, jsonRez.broj, jsonRez.zaposlenik);
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST",encodeURI("http://localhost:8080/rezervacija/test" ),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({zaposlenik: zaposlenik ,pocetak: pocetak, kraj: kraj}));
+    }
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
@@ -213,6 +249,8 @@ const PoziviAjax = (()=>{
     postNeobradeni: impl_postNeobradeni,
     postIzbrisiRezervaciju: impl_postIzbrisiRezervaciju,
     postPromjenaLozinke: impl_postPromjenaLozinke,
-    postSviGodisnji: impl_postSviGodisnji
+    postSviGodisnji: impl_postSviGodisnji,
+    postTrenutniGodisnji: impl_postTrenutniGodisnji,
+    postRezervacijaTest: impl_postRezervacijaTest
     };
     })();

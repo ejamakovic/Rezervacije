@@ -64,11 +64,11 @@ function ispisi(error, data){
 
             var regex = new RegExp(trazi, "i");
             if(regex.test(zaposlenik) || trazi == ""){
-                if((new Date(pocetakD) <= new Date(pocetak) || pocetakD == "") && (new Date(krajD) >= new Date(kraj) || krajD == ""))
-            vrati += "<div class='zelena'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
+            if((new Date(pocetakD) <= new Date(pocetak) || pocetakD == "") && (new Date(krajD) >= new Date(kraj) || krajD == ""))
+                vrati += "<div class='zelena'><p>Zaposlenik: " + zaposlenik + "</p><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>Otkaži</button></div>";
-                }
             }
+        }
         document.getElementById("rezervacije").innerHTML = vrati;
         postaviListener();
     }
