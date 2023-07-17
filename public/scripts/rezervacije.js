@@ -65,7 +65,7 @@ function ispisi(error, data){
             var regex = new RegExp(trazi, "i");
             if(regex.test(zaposlenik) || trazi == ""){
             if((new Date(pocetakD) <= new Date(pocetak) || pocetakD == "") && (new Date(krajD) >= new Date(kraj) || krajD == ""))
-                vrati += "<div class='zelena'><p>Zaposlenik: " + zaposlenik + "</p><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
+                vrati += "<div class='zelena'><p>Zaposlenik: " + zaposlenik + "</p><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p><p>Status: Prihvaćen</p>"
             + "<button class='button' id='" + zaposlenik +":" + pocetak + ":" + kraj + "'>Otkaži</button></div>";
             }
         }

@@ -34,7 +34,7 @@ function postaviListener(){
 
 function provjeriRezervacije(error, broj, zaposlenik){
     if(!error){
-        document.getElementById("brojZaposlenika").textContent = "Imat će te samo " + broj + " zaposlenika dostupnih u firmi na neke dane u razdoblju od " + pocetak + " do " + kraj + ".";
+        document.getElementById("brojZaposlenika").textContent = "Trenutno imate barem " + broj + " zaposlenika u firmi u razdoblju od " + pocetak + " do " + kraj + ".";
         document.getElementById("da").addEventListener("click", function(){
                     upozorenje.style.display = "none";
                     PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ucitaj)});
@@ -79,7 +79,8 @@ function ispisi(error, data){
             var regex = new RegExp(trazi, "i");
             if(regex.test(zaposlenik) || trazi == ""){
             if((new Date(pocetakD) <= new Date(pocetak) || pocetakD == "") && (new Date(krajD) >= new Date(kraj) || krajD == ""))
-            vrati += "<div class='crvena' id='" + zaposlenik + ":" + pocetak + ":" + kraj + "'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p>"
+            vrati += "<div class='crvena' id='" + zaposlenik + ":" + pocetak + ":" + kraj + "'><h4> Zaposlenik: " + zaposlenik + "</h4><p> Početak godišnjeg: " 
+            + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p><p>Status: Neobrađen</p>"
             + "<button class='button'>Prihvati</button>" 
             + "<button class='button'>Odbiji</button></div>";
                 }

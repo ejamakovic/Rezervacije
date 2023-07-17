@@ -6,7 +6,10 @@ const PoziviAjax = (()=>{
         ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){
         var jsonRez = JSON.parse(ajax.responseText);
-        fnCallback(null,jsonRez.poruka, jsonRez.sef, jsonRez.prijavaPrviPut);
+        if(jsonRez.prijavaPrviPut!=undefined)
+            fnCallback(null,jsonRez.poruka, jsonRez.sef, jsonRez.prijavaPrviPut);
+        else
+            fnCallback(null, jsonRez.poruka, null, null);
         }
         else if (ajax.readyState == 4)
         fnCallback(ajax.statusText, null);

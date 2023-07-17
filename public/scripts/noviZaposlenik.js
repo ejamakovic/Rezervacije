@@ -21,10 +21,8 @@ function unesi(error, data){
 }
 
 function napravi(){
-    ime = document.getElementById("ime").value;
-    prezime = document.getElementById("prezime").value;
-    password = document.getElementById("password").value;
-    var pre = prezime.toLowerCase();
+
+    var pre = prezime.value.toLowerCase();
     pre = pre.replaceAll("č", "c");
     pre = pre.replaceAll("ć", "c");
     pre = pre.replaceAll("š", "s");
@@ -32,7 +30,7 @@ function napravi(){
     pre = pre.replaceAll("đ", "d");
     pre = pre.replaceAll("dž", "dz");
 
-    username = ime.substring(0,1).toLowerCase() + pre.toLowerCase();
+    username = ime.value.substring(0,1).toLowerCase() + pre.toLowerCase();
 
     PoziviAjax.postUsername(username, popuni);
     
@@ -43,8 +41,8 @@ function popuni(error, user){
     document.getElementById("korisnik").value = username;
 }
 
-function posalji(error, username){
-    PoziviAjax.postDodajZaposlenika(ime, prezime, username, password, poruka);
+function posalji(){
+    PoziviAjax.postDodajZaposlenika(ime.value, prezime.value, username, password.value, poruka);
 }
 
 function poruka(error, data){
@@ -57,13 +55,15 @@ function poruka(error, data){
 }
 
 window.onload = function(){
+        ime = document.getElementById("ime");
+        prezime = document.getElementById("prezime");
+        password = document.getElementById("password");
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
-        var i = document.getElementById("ime");
-        var p = document.getElementById("prezime");
-        i.addEventListener('input', napravi);
-        i.addEventListener('propertychange', napravi); 
-        p.addEventListener('input', napravi);
-        p.addEventListener('propertychange', napravi);
+        
+        ime.addEventListener('input', napravi);
+        ime.addEventListener('propertychange', napravi); 
+        prezime.addEventListener('input', napravi);
+        prezime.addEventListener('propertychange', napravi);
         PoziviAjax.postZaposlenik(unesi);
 }
 

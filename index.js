@@ -115,16 +115,19 @@ app.post("/prijava", async function(req,res){
     var username = req.body["username"];
     var password = req.body["password"];
     var poruka = "Neuspješna prijava";
-    let user = await Zaposlenici.findOne({where: {username: username}});
+    let user = await Zaposlenici.findOne({where: {username: username}, raw:true});
     if(user!=null){
-        var hash = user.toJSON().password_hash;
+        var hash = user.password_hash;
         if(await bcrypt.compare(password,hash).then(res=> {return res})) {
-            req.session.username = user.toJSON().username;
-            req.session.sef = user.toJSON().sef;
+            req.session.username = user.username;
+            req.session.sef = user.sef;
             poruka = "Uspješna prijava na DigiPay";
         }
     }
-    res.send({poruka: poruka, sef: req.session.sef, prijavaPrviPut: user.toJSON().prijava_prvi_put});
+    if(user!=null)
+        res.send({poruka: poruka, sef: req.session.sef, prijavaPrviPut: user.prijava_prvi_put});
+    else
+        res.send({poruka: poruka});
 });
 
 app.post("/odjava", function(req,res){
@@ -251,8 +254,9 @@ app.post("/dodajZaposlenika", async function(req,res){
     var ime = req.body["ime"];
     var prezime = req.body["prezime"];
     var username = req.body["username"];
+    console.log(req.body["password"]);
     var password = await bcrypt.hash(req.body["password"], 10);
-    await Zaposlenici.create({ime: ime, prezime: prezime, username: username, password_hash: password, status_godisnjeg: "Nije poslan", sef: false});
+    await Zaposlenici.create({ime: ime, prezime: prezime, username: username, password_hash: password, status_godisnjeg: "Nije poslan", sef: false, prijava_prvi_put: false});
 
     res.send({poruka: "Zaposlenik uspješno kreiran"});
 });

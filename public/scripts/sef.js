@@ -20,14 +20,17 @@ function unesi(error, data){
 }
 
 function rezervacije(){
+    document.getElementById("obavijest").innerHTML = "";
     window.location.href = "http://localhost:8080/sef/rezervacije";
 }
 
 function dodajZaposlenika(){
+    document.getElementById("obavijest").innerHTML = "";
     window.location.href = "http://localhost:8080/sef/noviZaposlenik";
 }
 
 function zahtjevi(){
+    document.getElementById("obavijest").innerHTML = "";
     window.location.href = "http://localhost:8080/sef/neobradeniZahtjevi";
 }
 
@@ -44,5 +47,14 @@ window.onload = function(){
             }
         });
 }
+
+window.onpageshow = function(event) {
+    if (event.persisted || performance.getEntriesByType("navigation")[0].type === 'back_forward') {
+        location.reload();
+    }
+};
+
+
+
 
 
