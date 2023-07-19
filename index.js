@@ -190,7 +190,9 @@ app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     rezervacija.odobren = "true";
     await rezervacija.save();
-    
+    var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
+    zap.status_godisnjeg = "Prihvaćen";
+    await zap.save();
     res.send({lista: await Rezervacije.findAll({where: {odobren: false}, raw: true})});
 });
 
@@ -200,7 +202,7 @@ app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
     var kraj = req.body["kraj"];
     await Rezervacije.destroy({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
-    zap.status_godisnjeg = "odbijen";
+    zap.status_godisnjeg = "Odbijen";
     await zap.save();
     res.send({lista: await Rezervacije.findAll({where: {datum_pocetka_godisnjeg: {[Op.gt]: new Date(Date.now())}, odobren: true}, raw: true})});
 });
@@ -218,7 +220,7 @@ app.post("/rezervisi/zaposlenik/:username", async function(req,res){
     else{
     await Rezervacije.create({zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj, odobren: false});
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
-    zap.status_godisnjeg = "neobrađen";
+    zap.status_godisnjeg = "Neobrađen";
     await zap.save();
     res.send({poruka: "Rezervacija godišnjeg uspješno poslana"});
     }
@@ -285,6 +287,15 @@ app.post("/historija", async function(req,res){
     }
     else 
         res.send({greska: "Niste prijavljeni na DigiPay"});
+});
+
+app.post("/zaposlenik/rezervacije/otkazi", async function(req,res){
+    var zaposlenik = req.body["zaposlenik"];
+    await Rezervacije.destroy({where: {datum_pocetka_godisnjeg: {[Op.gt]: new Date(Date.now())}, zaposlenik: zaposlenik}});
+    var user = await Zaposlenici.findOne({where: {username: zaposlenik}});
+    user.status_godisnjeg = "Nije poslan";
+    await user.save();
+    res.send({poruka: "Rezervacija uspješno otkazana"});
 });
 
 app.listen(8080);

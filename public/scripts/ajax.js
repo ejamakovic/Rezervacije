@@ -240,6 +240,22 @@ const PoziviAjax = (()=>{
         ajax.send(JSON.stringify({zaposlenik: zaposlenik ,pocetak: pocetak, kraj: kraj}));
     }
 
+    function impl_postOtkaziRezervaciju(zaposlenik){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback();
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST",encodeURI("http://localhost:8080/zaposlenik/rezervacije/otkazi" ),true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({zaposlenik: zaposlenik}));
+    }
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
@@ -254,6 +270,7 @@ const PoziviAjax = (()=>{
     postPromjenaLozinke: impl_postPromjenaLozinke,
     postSviGodisnji: impl_postSviGodisnji,
     postTrenutniGodisnji: impl_postTrenutniGodisnji,
-    postRezervacijaTest: impl_postRezervacijaTest
+    postRezervacijaTest: impl_postRezervacijaTest,
+    postOtkaziRezervaciju: impl_postOtkaziRezervaciju
     };
     })();

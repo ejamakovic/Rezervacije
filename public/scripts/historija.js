@@ -1,3 +1,5 @@
+let username;
+
 function odjavi(error, data){
     if(!error){
         document.body.innerHTML = "<h1>" + data + "</h1>";
@@ -14,6 +16,7 @@ function unesi(error, data){
         return;
     }
     document.getElementById("username").textContent = data;
+    username = data;
     }
 }
 
@@ -30,7 +33,7 @@ function ispisi(error, data){
             var pocetak = data[i].datum_pocetka_godisnjeg.split("T")[0];
             var kraj = data[i].datum_kraja_godisnjeg.split("T")[0];
             vrati += "<div class='zuta'><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p><p>Status: završen</p></div>";
-            }
+        }
         }
         document.getElementById("rezervacije").innerHTML = vrati;
 }
@@ -42,15 +45,20 @@ function godisnji(error, data){
             var kraj = data.datum_kraja_godisnjeg.split("T")[0];
             var odobren = data.odobren;
             if(odobren)
-            document.getElementById("trenutni").innerHTML = "<div class='zelena'><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p><p>Status: prihvaćen</p></div>";
+            document.getElementById("trenutni").innerHTML = "<div class='zelena'><p>Početak godišnjeg: " + pocetak + "</p><p>Kraj godišnjeg: " + kraj + "</p><p>Status: prihvaćen</p>"
+            + "<button class='button' onclick='otkazi()'>Otkaži</button></div>";
             else
-            document.getElementById("trenutni").innerHTML = "<div class='crvena'><p> Početak godišnjeg: " + pocetak + "</p><p> Kraj godišnjeg: " + kraj + "</p><p>Status: neobrađen</p></div>";
+            document.getElementById("trenutni").innerHTML = "<div class='crvena'><p>Početak godišnjeg: " + pocetak + "</p><p>Kraj godišnjeg: " + kraj + "</p><p>Status: neobrađen</p>"
+            + "<button class='button' onclick='otkazi()'>Otkaži</button></div>";
             }
         else
         document.getElementById("trenutni").innerHTML = "<p>Niste poslali zahtjev za trenutni godišnji";
         }
     }
-        
+
+function otkazi(){
+    PoziviAjax.postOtkaziRezervaciju(username, location.reload());
+}        
 
 
 window.onload = function(){
