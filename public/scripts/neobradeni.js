@@ -1,6 +1,6 @@
 let trazi = "";
 let pocetakD = "", krajD = "";
-let pocetak, kraj;
+let pocetak, kraj, zaposlenik;
 
 function odjavi(error, data){
     if(!error){
@@ -15,39 +15,40 @@ function postaviListener(){
     for(let box of dugmad){
         box.addEventListener("click", function handleClick(event){
             var parametri = box.parentElement.id.split(":");
-            var zaposlenik = parametri[0];
-            var p = new Date(parametri[1]);
-            var k= new Date(parametri[2]);
+            zaposlenik = parametri[0];
+            pocetak = parametri[1];
+            kraj = parametri[2];
             if(box.textContent == "Odbiji"){
-                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, p, k, ucitaj);
+                PoziviAjax.postIzbrisiRezervaciju(zaposlenik, new Date(pocetak), new Date(kraj), ucitaj);
             }
             else if(box.textContent == "Prihvati"){
                 var upozorenje = document.getElementById("upozorenje");
+                PoziviAjax.postRezervacijaTest(zaposlenik,  new Date(pocetak), new Date(kraj), provjeriRezervacije);
                 upozorenje.style.display = "flex";
-                pocetak = parametri[1];
-                kraj = parametri[2];
-                PoziviAjax.postRezervacijaTest(zaposlenik, pocetak, kraj, provjeriRezervacije);
             }
         });
     }
 }
 
-function provjeriRezervacije(error, broj, zaposlenik){
-    if(!error){
-        document.getElementById("brojZaposlenika").textContent = "Trenutno imate barem " + broj + " zaposlenika u firmi u razdoblju od " + pocetak + " do " + kraj + ".";
-        document.getElementById("da").addEventListener("click", function(){
-                    upozorenje.style.display = "none";
-                    PoziviAjax.postPromjeniRezervaciju(zaposlenik, pocetak, kraj, ucitaj)});
-        }
-        document.getElementById("ne").addEventListener("click", function(){
-            upozorenje.style.display = "none";
-        });
-}
 
 function ucitaj(error, data){
     if(!error)
         PoziviAjax.postNeobradeni(ispisi);
 }
+
+function provjeriRezervacije(error, broj){
+    if(!error){
+        document.getElementById("brojZaposlenika").textContent = "Trenutno imate " + broj + " zaposlenika u firmi u razdoblju od " + pocetak + " do " + kraj + ".";
+        document.getElementById("da").addEventListener("click", function(){
+                    upozorenje.style.display = "none";
+                    PoziviAjax.postPromjeniRezervaciju(zaposlenik, new Date(pocetak), new Date(kraj), ispisi)});
+        }
+        document.getElementById("ne").addEventListener("click", function(){
+            upozorenje.style.display = "none";
+            ucitaj(null, null);
+        });
+}
+ 
 
 function reset(){
     pocetakD = "";
@@ -68,6 +69,7 @@ function ispisi(error, data){
             document.body.innerHTML = data;
             return;
         }
+        if(data!=null){
         var vrati = "";    
         var duzina = data.length;
         for(i=0 ; i<duzina; i++){
@@ -84,11 +86,12 @@ function ispisi(error, data){
             + "<button class='button'>Prihvati</button>" 
             + "<button class='button'>Odbiji</button></div>";
                 }
-            }
         }
         
         document.getElementById("rezervacije").innerHTML = vrati;
         postaviListener();
+    }
+    }
 }
 
 window.onload = function(){

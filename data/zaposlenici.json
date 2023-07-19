@@ -1,27 +1,5 @@
 [
     {
-    "zaposlenik": {
-    "ime": "Ermin",
-    "prezime": "Jamaković",
-    "username": "ejamakovic",
-    "password_hash": "$2b$10$l5wInwIXoFDP5zBBpyEm5eiDgR.C5VVKV2uDZhy2Pynhddaj3vybm",
-    "status_godisnjeg": "odobren",
-    "sef": false,
-    "prijava_prvi_put": true
-    }
-    },
-    {
-        "zaposlenik": {
-        "ime": "Neko",
-        "prezime": "Neko",
-        "username": "nneko",
-        "password_hash": "$2b$10$l5wInwIXoFDP5zBBpyEm5eiDgR.C5VVKV2uDZhy2Pynhddaj3vybm",
-        "status_godisnjeg": "odobren",
-        "sef": false,
-        "prijava_prvi_put": true
-        }
-        },
-    {
         "zaposlenik": {
         "ime": "Tarik",
         "prezime": "Hrnjić",
@@ -32,6 +10,5 @@
         "prijava_prvi_put": true
         }
     }
-    
 ]
     

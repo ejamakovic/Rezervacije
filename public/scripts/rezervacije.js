@@ -1,4 +1,4 @@
-let opcija = "sve";
+
 let trazi = "";
 let pocetakD = "", krajD = "";
 
@@ -75,11 +75,6 @@ function ispisi(error, data){
 }
 
 window.onload = function(){
-    var filter = document.getElementById("filter")
-    filter.addEventListener("change", function(){
-        opcija = filter.value;
-        PoziviAjax.postRezervacije(ispisi);
-    });
     document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
     PoziviAjax.postRezervacije(ispisi);
 }

@@ -185,10 +185,15 @@ app.post("/rezervacija/test", async function(req,res){
 
 app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
     var zaposlenik = req.body["zaposlenik"];
-    var pocetak = new Date(req.body["pocetak"]);
-    var kraj = new Date(req.body["kraj"]);
+    var pocetak = req.body["pocetak"];
+    var kraj = req.body["kraj"];
+    console.log("Prihvati");
+    console.log(zaposlenik);
+    console.log(pocetak);
+    console.log(kraj);
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
-    rezervacija.odobren = "true";
+    console.log(rezervacija);
+    rezervacija.odobren = true;
     await rezervacija.save();
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
     zap.status_godisnjeg = "Prihvaćen";
@@ -198,8 +203,12 @@ app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
 
 app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
     var zaposlenik = req.body["zaposlenik"];
-    var pocetak = req.body["pocetak"];
-    var kraj = req.body["kraj"];
+    var pocetak = new Date(req.body["pocetak"]);
+    var kraj = new Date(req.body["kraj"]);
+    console.log("Brisanje");
+    console.log(zaposlenik);
+    console.log(pocetak);
+    console.log(kraj);
     await Rezervacije.destroy({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
     zap.status_godisnjeg = "Odbijen";
@@ -256,7 +265,6 @@ app.post("/dodajZaposlenika", async function(req,res){
     var ime = req.body["ime"];
     var prezime = req.body["prezime"];
     var username = req.body["username"];
-    console.log(req.body["password"]);
     var password = await bcrypt.hash(req.body["password"], 10);
     await Zaposlenici.create({ime: ime, prezime: prezime, username: username, password_hash: password, status_godisnjeg: "Nije poslan", sef: false, prijava_prvi_put: false});
 

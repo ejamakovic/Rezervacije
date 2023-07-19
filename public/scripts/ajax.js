@@ -229,7 +229,7 @@ const PoziviAjax = (()=>{
         ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200){
         var jsonRez = JSON.parse(ajax.responseText);
-        fnCallback(null, jsonRez.broj, jsonRez.zaposlenik);
+        fnCallback(null, jsonRez.broj);
         }
         else if (ajax.readyState == 4)
         fnCallback(ajax.statusText, null);

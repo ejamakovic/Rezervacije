@@ -80,6 +80,22 @@
     background-color: #ffcc00;
   }
 
+  #da, #ne {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 1%;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #da:hover, #ne:hover {
+    background-color: #ffcc00;
+  }
+
   
 body {
   margin: 0;
