@@ -34,6 +34,11 @@ function zahtjevi(){
     window.location.href = "http://localhost:8080/sef/neobradeniZahtjevi";
 }
 
+function lista(){
+    document.getElementById("obavijest").innerHTML = "";
+    window.location.href = "http://localhost:8080/sef/lista";
+}
+
 window.onload = function(){
         document.getElementById("odjava").addEventListener("click", function() { PoziviAjax.postOdjava(odjavi)});
         PoziviAjax.postZaposlenik(unesi);

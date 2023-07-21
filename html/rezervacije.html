@@ -1,0 +1,64 @@
+<!DOCTYPE html >
+<html lang="bs">
+<head>
+    <title>Rezervacije</title>
+    <link rel="stylesheet" type="text/css" href="/css/rezervacije.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+    rel = "stylesheet">
+    <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>  
+<body>
+    <header>
+        <nav>
+        <ul>
+          <li><a href="#" >Početna</a></li>
+          <li><a href="#" >Usluge</a></li>
+          <li><a href="#" >O nama</a></li>
+          <li><a href="#" >Kontakt</a></li>
+        </ul>
+      </nav>
+      <div class="prijava">
+        <button id="odjava" style="border-radius: 5px" >Odjava</button>
+      </div>
+    </header>
+    <br><br>
+    <div class="container">
+    <label>Traži zaposlenika: </label>
+    <input class="animate-input" type="text" id="zaposlenik">
+    <button id="trazi" class="animate-button" onclick="traziZaposlenika()">Traži</button>
+      <br>
+      <label>Početak godišnjeg odmora:</label>
+      <input readonly type = "text" id = "datepickerP" class="animate-input">
+      <label>Kraj godišnjeg odmora:</label>
+      <input readonly type = "text" id = "datepickerK" class="animate-input">
+      <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
+    </div>
+      
+    <div>
+      <br>
+      <h3 style="color: white;">Rezervacije</h3>
+      <div id="rezervacije" class="rezervacije"></div>
+    </div>
+    <div id="upozorenje">
+    <div id="dijalog">
+      <h2>Otkazivanje rezervacije</h2>
+      <br>
+      <div>
+        <img src="/slike/upozorenje.png">
+      </div>
+      <br>
+      <div>
+        <p>Da li ste sigurni? Otkazivanjem rezervacije izbrisat će te rezervaciju zauvijek.</p>
+        <button id="da" class="button">Da</button>
+        <button id="ne" class="button">Ne</button>
+      </div>
+    </div>
+    </div>
+    <script src="/scripts/rezervacije.js"></script>
+    <script src="/scripts/ajax.js"></script>
+</body>
+</html>
+

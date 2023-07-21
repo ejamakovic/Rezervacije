@@ -79,37 +79,63 @@ app.use(session({
 app.use(express.static(__dirname+"/public/"));
 
 app.get("/", async function(req,res){
-    res.sendFile(__dirname + "/public/pocetna.html");
+    res.sendFile(__dirname + "/html/pocetna.html");
 });
 app.get("/prijava", async function(req,res){
-    res.sendFile(__dirname +"/public/prijava.html");
+    res.sendFile(__dirname +"/html/prijava.html");
 });
 app.get("/promjenaLozinke", async function(req,res){
-    res.sendFile(__dirname +"/public/promjenaLozinke.html");
+    res.sendFile(__dirname +"/html/promjenaLozinke.html");
 });
 app.get("/zaposlenik",  function(req,res){
-    res.sendFile(__dirname + "/public/zaposlenik.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/zaposlenik.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 app.get("/zaposlenik/rezervacija", function(req,res){
-    res.sendFile(__dirname + "/public/rezervisi.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/rezervisi.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 app.get("/zaposlenik/historija", function(req,res){
-    res.sendFile(__dirname + "/public/historija.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/historija.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 app.get("/sef",  function(req,res){
-    res.sendFile(__dirname + "/public/sef.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/sef.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 app.get("/sef/rezervacije", function(req,res){
-    res.sendFile(__dirname + "/public/rezervacije.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/rezervacije.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 app.get("/sef/noviZaposlenik", function(req,res){
-    res.sendFile(__dirname + "/public/noviZaposlenik.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/noviZaposlenik.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
 
 app.get("/sef/neobradeniZahtjevi", function(req,res){
-    res.sendFile(__dirname + "/public/neobradeniZahtjevi.html");
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/neobradeniZahtjevi.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
 });
-
+app.get("/sef/lista", function(req,res){
+    if(req.session.username != undefined)
+    res.sendFile(__dirname + "/html/lista.html");
+    else
+    res.sendFile(__dirname + "/html/greska.html");
+});
 
 app.post("/prijava", async function(req,res){
     var username = req.body["username"];
@@ -187,12 +213,7 @@ app.post("/rezervacija/zaposlenik/promjeni", async function(req,res){
     var zaposlenik = req.body["zaposlenik"];
     var pocetak = req.body["pocetak"];
     var kraj = req.body["kraj"];
-    console.log("Prihvati");
-    console.log(zaposlenik);
-    console.log(pocetak);
-    console.log(kraj);
     var rezervacija = await Rezervacije.findOne({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
-    console.log(rezervacija);
     rezervacija.odobren = true;
     await rezervacija.save();
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
@@ -283,7 +304,6 @@ app.post("/promjenaLozinke" , async function(req,res){
     user.password_hash = password;
     user.prijava_prvi_put = true;
     await user.save();
-
     res.send({poruka: "Uspješna promjena lozinke"});
 });
 
@@ -304,6 +324,49 @@ app.post("/zaposlenik/rezervacije/otkazi", async function(req,res){
     user.status_godisnjeg = "Nije poslan";
     await user.save();
     res.send({poruka: "Rezervacija uspješno otkazana"});
+});
+
+app.post("/sef/lista", async function(req,res){
+    var pocetak = req.body["pocetak"];
+    var kraj = new Date(req.body["kraj"]);
+    var rezervacije = await Rezervacije.findAll({where: {odobren: true},raw: true});
+    var zaposlenici = await Zaposlenici.findAll({where: {sef: false},raw: true});
+    var duzina = rezervacije.length;
+    var pomocna = new Date(pocetak);
+    var lista = "<table> <tr class='prviRed'> <th>Datum</th> <th>Broj zaposlenika</th></tr>";
+    console.log(kraj);
+    console.log(pomocna);
+    while(pomocna <= kraj){
+    var niz = Array.from(zaposlenici);
+    for(var i = 0; i < duzina; i++){
+        var p = rezervacije[i].datum_pocetka_godisnjeg;
+        var k = rezervacije[i].datum_kraja_godisnjeg;
+        if(pomocna >= p && pomocna <= k){
+        var index = niz.indexOf(await Zaposlenici.findOne({where: {username: rezervacije[i].zaposlenik}, raw:true}));
+        console.log(index);
+        if (index > -1)
+            niz.splice(index, 1);
+        }
+    }
+    
+    var broj = niz.length;
+    lista += "<tr> <td>" + pomocna.toISOString().split("T")[0] + "</td><td>" + broj;
+    lista += "<div class='skriveniDiv'><p>Zaposlenici:</p>"; 
+    for(var j = 0; j < broj; j++){
+            var ime = niz[j].ime;
+            var prezime = niz[j].prezime;
+            console.log(ime);
+            console.log(lista);
+            lista += "<p>" + ime + " " + prezime + "</p>";
+    }
+    lista += "</div></td></tr>";
+    pomocna.setDate(pomocna.getDate()+1);
+    }
+    lista += "</table>";
+    console.log(lista);
+    
+
+    res.send({lista: lista});
 });
 
 app.listen(8080);

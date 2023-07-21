@@ -17,16 +17,20 @@
         </ul>
       </nav>
       <div class="prijava">
-        <button id="odjava" style="border-radius: 5px" >Odjava</button>
+        <button id="odjava"  style="border-radius: 5px">Odjava</button>
       </div>
     </header>
     <div id="obavijest"></div>
     <h1>Šef</h1>
     <h2 id="username"></h2>
     <br><br>
-    <button style="background-color: #ffcc00;" onclick="rezervacije()">Rezervacije zaposlenika za godišnji odmor</button>
-    <button style="background-color: #ffcc00;" onclick="dodajZaposlenika()">Dodaj novog zaposlenika</button>
-    <button style="background-color: #ffcc00;" onclick="zahtjevi()">Zahtjevi rezervacija zaposlenika za godišnji odmor</button>
+    <button style="background-color: #ffcc00;" onclick="rezervacije()" class="animate-button">Rezervacije zaposlenika za godišnji odmor</button>
+    <br><br>
+    <button style="background-color: #ffcc00;" onclick="dodajZaposlenika()" class="animate-button">Dodaj novog zaposlenika</button>
+    <br><br>
+    <button style="background-color: #ffcc00;" onclick="zahtjevi()" class="animate-button">Zahtjevi rezervacija zaposlenika za godišnji odmor</button>
+    <br><br>
+    <button style="background-color: #ffcc00;" onclick="lista()" class="animate-button">Lista dostupnih zaposlenika</button>
     <script src="/scripts/sef.js"></script>
     <script src="/scripts/ajax.js"></script>
 </body>

@@ -256,6 +256,22 @@ const PoziviAjax = (()=>{
         ajax.send(JSON.stringify({zaposlenik: zaposlenik}));
     }
 
+    function impl_postLista(pocetak, kraj, fnCallback){
+        var ajax = new XMLHttpRequest();
+        ajax.onreadystatechange = function() {
+        if (ajax.readyState == 4 && ajax.status == 200){
+        var jsonRez = JSON.parse(ajax.responseText);
+        fnCallback(null, jsonRez.lista);
+        }
+        else if (ajax.readyState == 4)
+        fnCallback(ajax.statusText, null);
+        }
+        
+        ajax.open("POST", "http://localhost:8080/sef/lista" ,true);
+        ajax.setRequestHeader("Content-Type", "application/json");
+        ajax.send(JSON.stringify({pocetak: pocetak, kraj: kraj}));
+    }
+
     return{
     postOdjava: impl_postOdjava,
     postPrijava: impl_postPrijava,
@@ -271,6 +287,7 @@ const PoziviAjax = (()=>{
     postSviGodisnji: impl_postSviGodisnji,
     postTrenutniGodisnji: impl_postTrenutniGodisnji,
     postRezervacijaTest: impl_postRezervacijaTest,
-    postOtkaziRezervaciju: impl_postOtkaziRezervaciju
+    postOtkaziRezervaciju: impl_postOtkaziRezervaciju,
+    postLista: impl_postLista
     };
     })();
