@@ -8,7 +8,6 @@
     width: 50%;
     color: #fff;
     background-color: #1f1f1f;
-    gap: 20px;
   }
   
   td:hover .skriveniDiv {
@@ -89,7 +88,7 @@
   
   
   p {
-    font-size: 12px;
+    font-size: 14px;
   }
   
   .prijava {
