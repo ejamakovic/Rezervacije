@@ -3,7 +3,6 @@ const session = require("express-session");
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const zaposlenici = require("./data/zaposlenici.json");
-const rezervacije = require("./data/rezervacije.json");
 var fs = require('fs')
 ;
 const app = express();
@@ -43,27 +42,6 @@ sequelize.sync().then(async () => {
             prijava_prvi_put: prijava_prvi_put
         }
         });
-    }
-
-    duzina = rezervacije.length;
-    for(var i=0; i<duzina; i++){
-        var zaposlenik = rezervacije[i].rezervacija.zaposlenik;
-        var pocetak = new Date(rezervacije[i].rezervacija.datum_pocetka_godisnjeg);
-        var kraj = new Date(rezervacije[i].rezervacija.datum_kraja_godisnjeg);
-        var odobren = rezervacije[i].rezervacija.odobren;
-        await Rezervacije.findOrCreate({
-            where: {
-                zaposlenik: zaposlenik,
-                datum_pocetka_godisnjeg: pocetak,
-                datum_kraja_godisnjeg: kraj
-            },
-            defaults: {
-                zaposlenik: zaposlenik,
-                datum_pocetka_godisnjeg: pocetak,
-                datum_kraja_godisnjeg: kraj,
-                odobren: odobren
-            }
-            });
     }
 });
 
