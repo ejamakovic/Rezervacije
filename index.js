@@ -327,12 +327,12 @@ app.post("/zaposlenik/rezervacije/otkazi", async function(req,res){
 });
 
 app.post("/sef/lista", async function(req,res){
-    var pocetak = req.body["pocetak"];
+    var pocetak = new Date(req.body["pocetak"]);
     var kraj = new Date(req.body["kraj"]);
     var rezervacije = await Rezervacije.findAll({where: {odobren: true},raw: true});
     var zaposlenici = await Zaposlenici.findAll({where: {sef: false},raw: true});
     var duzina = rezervacije.length;
-    var pomocna = new Date(pocetak);
+    var pomocna = new Date(pocetak.toISOString().split("T")[0]);
     var lista = "<table> <tr class='prviRed'> <th>Datum</th> <th>Broj zaposlenika</th></tr>";
     console.log(kraj);
     console.log(pomocna);
@@ -343,29 +343,23 @@ app.post("/sef/lista", async function(req,res){
         var k = rezervacije[i].datum_kraja_godisnjeg;
         if(pomocna >= p && pomocna <= k){
         var index = niz.indexOf(await Zaposlenici.findOne({where: {username: rezervacije[i].zaposlenik}, raw:true}));
-        console.log(index);
         if (index > -1)
             niz.splice(index, 1);
         }
     }
     
     var broj = niz.length;
-    lista += "<tr> <td>" + pomocna.toISOString().split("T")[0] + "</td><td>" + broj;
+    lista += "<tr> <td>" + pomocna.toISOString().split("T")[0] + "</td><td>" + broj ;
     lista += "<div class='skriveniDiv'><p>Zaposlenici:</p>"; 
     for(var j = 0; j < broj; j++){
             var ime = niz[j].ime;
             var prezime = niz[j].prezime;
-            console.log(ime);
-            console.log(lista);
             lista += "<p>" + ime + " " + prezime + "</p>";
     }
     lista += "</div></td></tr>";
     pomocna.setDate(pomocna.getDate()+1);
     }
     lista += "</table>";
-    console.log(lista);
-    
-
     res.send({lista: lista});
 });
 

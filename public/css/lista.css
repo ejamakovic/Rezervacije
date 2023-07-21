@@ -2,17 +2,17 @@
 .skriveniDiv {
     display: none;
     border: 1px solid #719ECE;
-    padding: 10px;
     position: absolute; 
-    top: 0; 
-    left: 100%; 
+    top: 100%; 
+    right: 0; 
+    width: 50%;
     color: #fff;
-    width: fit-content;
     background-color: #1f1f1f;
+    gap: 20px;
   }
   
   td:hover .skriveniDiv {
-    display: block; 
+    display: block;
   }
   
   tr:hover {
@@ -24,24 +24,33 @@
   }
   
   table {
-    margin: 1%;
     background-color: #fff;
     color: #1f1f1f;
     border-collapse: collapse;
+    width: 100%;
   }
   
   td, th{
     border: 1px solid #1f1f1f;
     padding: 10px;
-    position: relative; 
+    position: relative;
+    width: 10%;
   }
   
+  #lista {
     
+    margin: auto;
+    margin-bottom: 20%;
+    width: 50%;
+    border: 3px solid #719ECE;
+    padding: 10px;
+    background-color: #ffcc00;
+  }
   body {
     margin: 0;
     padding: 0;
     background-color:#1a1a1a;
-    color: #1a1a1a;
+    color: #fff;
     font-family: "Open Sans", sans-serif;
     text-align: center;
   }

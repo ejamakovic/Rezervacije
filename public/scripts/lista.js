@@ -1,5 +1,13 @@
 let pocetakD = "", krajD = "";
-        
+
+function odjavi(error, data){
+  if(!error){
+      document.body.innerHTML = "<h1>" + data + "</h1>";
+      setTimeout(function(){
+          window.location.href = "http://localhost:8080";
+      }, 2000);
+  }
+}
         
         function reset(){
             pocetakD = "";
@@ -8,7 +16,7 @@ let pocetakD = "", krajD = "";
             document.getElementById("datepickerK").value = "";
             var pom = new Date();
             pom.setDate(pom.getDate() + 30);
-            datumi(new Date(), pom);
+            PoziviAjax.postLista(new Date(), pom, ispisi);
         }
         
         
@@ -35,11 +43,11 @@ let pocetakD = "", krajD = "";
               var selectedDate = $(this).datepicker("getDate");
               pocetakD = $.datepicker.formatDate("yy-mm-dd", selectedDate);
               if(krajD != "")
-                PoziviAjax.postLista(pocetakD, krajD);
-              else{
-                var pom = pocetakD;
+                PoziviAjax.postLista(pocetakD, krajD, ispisi);
+              else if(pocetakD != ""){
+                var pom = new Date(pocetakD);
                 pom.setDate(pom.getDate() + 30);
-                PoziviAjax.postLista(pocetakD, pom);
+                PoziviAjax.postLista(pocetakD, pom, ispisi);
               }
             });
         
@@ -49,9 +57,9 @@ let pocetakD = "", krajD = "";
               var selectedDate = $(this).datepicker("getDate");
               krajD = $.datepicker.formatDate("yy-mm-dd", selectedDate);
               if(pocetakD != "")
-              PoziviAjax.postLista(pocetakD, krajD);
-              else
-              PoziviAjax.postLista(new Date(), krajD);
+              PoziviAjax.postLista(pocetakD, krajD, ispisi);
+              else if(krajD != "")
+              PoziviAjax.postLista(new Date(), krajD, ispisi);
               
             });
         });
