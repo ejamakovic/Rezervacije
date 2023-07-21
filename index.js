@@ -226,10 +226,6 @@ app.post("/rezervacija/zaposlenik/izbrisi", async function(req,res){
     var zaposlenik = req.body["zaposlenik"];
     var pocetak = new Date(req.body["pocetak"]);
     var kraj = new Date(req.body["kraj"]);
-    console.log("Brisanje");
-    console.log(zaposlenik);
-    console.log(pocetak);
-    console.log(kraj);
     await Rezervacije.destroy({where: {zaposlenik: zaposlenik, datum_pocetka_godisnjeg: pocetak, datum_kraja_godisnjeg: kraj}});
     var zap = await Zaposlenici.findOne({where: {username: zaposlenik}});
     zap.status_godisnjeg = "Odbijen";
@@ -330,15 +326,14 @@ app.post("/sef/lista", async function(req,res){
     var duzina = rezervacije.length;
     var pomocna = new Date(pocetak.toISOString().split("T")[0]);
     var lista = "<table> <tr class='prviRed'> <th>Datum</th> <th>Broj zaposlenika</th></tr>";
-    console.log(kraj);
-    console.log(pomocna);
     while(pomocna <= kraj){
     var niz = Array.from(zaposlenici);
     for(var i = 0; i < duzina; i++){
         var p = rezervacije[i].datum_pocetka_godisnjeg;
         var k = rezervacije[i].datum_kraja_godisnjeg;
         if(pomocna >= p && pomocna <= k){
-        var index = niz.indexOf(await Zaposlenici.findOne({where: {username: rezervacije[i].zaposlenik}, raw:true}));
+        var user = await Zaposlenici.findOne({where: {username: rezervacije[i].zaposlenik}, raw:true});
+        var index = niz.findIndex(element => element.username == user.username);
         if (index > -1)
             niz.splice(index, 1);
         }
