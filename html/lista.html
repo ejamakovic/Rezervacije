@@ -1,7 +1,7 @@
 <!DOCTYPE html >
 <html lang="bs">
 <head>
-    <title>Rezervacije</title>
+    <title>Lista</title>
     <link rel="stylesheet" type="text/css" href="/css/lista.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,12 +25,14 @@
       </div>
     </header>
     <br><br>
-    <div class="container">
-      <label>Prvi dan: </label>
-      <input readonly type = "text" id = "datepickerP" class="animate-input">
-      <label>Zadnji dan: </label>
-      <input readonly type = "text" id = "datepickerK" class="animate-input">
-      <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
+    <div class="form-container">
+      <div class="container">
+        <label>Prvi datum: </label>
+        <input readonly type = "text" id = "datepickerP" class="animate-input">
+        <label>Zadnji datum</label>
+        <input readonly type = "text" id = "datepickerK" class="animate-input">
+        <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
+      </div>
     </div>
     
     <h2>Lista datuma sa brojem zaposlenika koji rade taj dan</h2>

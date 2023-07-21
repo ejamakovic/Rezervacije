@@ -1,7 +1,7 @@
 
 let trazi = "";
 let pocetakD = "", krajD = "";
-
+let pocetak, kraj, zaposlenik;
 function odjavi(error, data){
     if(!error){
         document.body.innerHTML = "<h1>" + data + "</h1>";
@@ -15,9 +15,9 @@ function postaviListener(){
     for(let box of dugmad){
         box.addEventListener("click", function handleClick(event){
             var parametri = box.id.split(":");
-            var zaposlenik = parametri[0];
-            var pocetak = new Date(parametri[1]);
-            var kraj = new Date(parametri[2]);
+            zaposlenik = parametri[0];
+            pocetak = parametri[1];
+            kraj = parametri[2];
             if(box.textContent == "Otkaži"){
                 var upozorenje = document.getElementById("upozorenje");
                 upozorenje.style.display = "flex";

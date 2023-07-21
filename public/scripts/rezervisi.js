@@ -1,4 +1,4 @@
-let username, pocetak, kraj;
+let username, pocetak = "", kraj = "";
 
 function odjavi(error, data){
     if(!error){
@@ -34,12 +34,16 @@ window.onload = function(){
         
         document.getElementById("login-btn").addEventListener("click", function(){
             username = document.getElementById("username").textContent;
+            if(pocetak != "" && kraj != ""){
             if(new Date(kraj) < new Date(pocetak))
                 document.getElementById("poruka").textContent = "Ne može datum kraja biti prije datuma početka";
             else if(new Date(pocetak) < Date.now())
                 document.getElementById("poruka").textContent = "Ne može datum početka biti iza današnjeg datuma";
             else 
             PoziviAjax.postDodajRezervaciju(username, pocetak, kraj, slanje);
+            }
+            else 
+                document.getElementById("poruka").textContent = "Niste izabrali oba datuma";
         });
 }
 

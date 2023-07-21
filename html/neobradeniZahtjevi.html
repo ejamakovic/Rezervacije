@@ -1,7 +1,7 @@
 <!DOCTYPE html >
 <html lang="bs">
 <head>
-    <title>Rezervacije</title>
+    <title>Neobrađeni zahtjevi</title>
     <link rel="stylesheet" type="text/css" href="/css/rezervacije.css">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,17 +25,19 @@
       </div>
     </header>
     <br><br>
-    <div class="container">
-    <label>Traži zaposlenika: </label>
-    <input class="animate-input" type="text" id="zaposlenik">
-    <button id="trazi" class="animate-button" onclick="traziZaposlenika()">Traži</button>
+    <div class="form-container">
+      <label>Zaposlenik: </label>
+      <input class="animate-input" type="text" id="zaposlenik">
+      <button id="trazi" class="animate-button" onclick="traziZaposlenika()">Traži</button>
       <br>
-      <label>Početak godišnjeg odmora:</label>
-      <input type = "read-only" id = "datepickerP" class="animate-input">
-      <label>Kraj godišnjeg odmora:</label>
-      <input type = "read-only" id = "datepickerK" class="animate-input">
-      <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
-    </div>
+      <div class="container">
+        <label>Početak godišnjeg odmora:</label>
+        <input readonly type = "text" id = "datepickerP" class="animate-input">
+        <label>Kraj godišnjeg odmora:</label>
+        <input readonly type = "text" id = "datepickerK" class="animate-input">
+        <button id="reset" class="animate-button" onclick="reset()">Obriši datume</button>
+      </div>
+      </div>
       
     <div>
       <br>

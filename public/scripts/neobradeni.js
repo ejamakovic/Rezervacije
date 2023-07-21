@@ -38,7 +38,7 @@ function ucitaj(error, data){
 
 function provjeriRezervacije(error, broj){
     if(!error){
-        document.getElementById("brojZaposlenika").textContent = "Trenutno imate " + broj + " zaposlenika u firmi u razdoblju od " + pocetak + " do " + kraj + ".";
+        document.getElementById("brojZaposlenika").textContent = "Trenutno imate barem " + broj + " zaposlenika u firmi svaki dan u razdoblju od " + pocetak + " do " + kraj + ".";
         document.getElementById("da").addEventListener("click", function(){
                     upozorenje.style.display = "none";
                     PoziviAjax.postPromjeniRezervaciju(zaposlenik, new Date(pocetak), new Date(kraj), ispisi)});
